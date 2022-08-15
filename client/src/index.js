@@ -27,9 +27,9 @@ root.render(
       window.__REDUX_DEVTOOLS_EXTENSION__&&
       window.__REDUX_DEVTOOLS_EXTENSION__()
     )}>
-      {/* <BrowserRouter> */}
+      <BrowserRouter>
         <App />
-      {/* </BrowserRouter> */}
+      </BrowserRouter>
       
     </Provider>
   </React.StrictMode>
