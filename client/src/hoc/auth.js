@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import {useDispatch} from 'react-redux'
 import { useNavigate } from "react-router-dom";
 import {auth} from '../_action/user_action';
@@ -7,9 +8,12 @@ import {auth} from '../_action/user_action';
 
 export default function Auth(SpecificComponent, option, adminRoute=null){
     const navigate = useNavigate();
+    
 
     function AuthenticationCheck(props){
+        let user = useSelector(state => state.user);
         const dispatch = useDispatch();
+
         useEffect(()=>{
             dispatch(auth()).then(response => {
                 //null 아무나 출입가능
@@ -35,8 +39,11 @@ export default function Auth(SpecificComponent, option, adminRoute=null){
                     }
                 }
             });
-        },[])
-        return (SpecificComponent)
+        },[dispatch])
+
+        return (
+            <SpecificComponent {...props} user={user} />
+        )
     }
     return AuthenticationCheck
 }

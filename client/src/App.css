@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'Nanum Gothic', sans-serif;
+    src: url(./font/NanumGothic-Regular.ttf);
+}
+@font-face {
+    font-family: 'Gowun Batang', serif;
+    src: url(./font/GowunBatang-Regular.ttf);
+}
+
+* {
+    color: #333; 
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4;
+    font-family: 'Nanum Gothic', sans-serif;
+    text-decoration: none;
+    list-style:none;
+    margin-bottom: 0;
+}
+a{
+    /* color: #333 !important ; */
+}
+ul{
+    margin-bottom : 0 !important ;
+}
+.inner{
+    width: 1100px;
+    margin: 0 auto;
+}

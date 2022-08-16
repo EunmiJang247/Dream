@@ -2,34 +2,58 @@ import React, { useEffect } from 'react'
 import axios from 'axios';
 
 import {useNavigate} from 'react-router-dom';
+import styled from "styled-components";
+
+import Dreamees from '../Dreamee/Sections/Dreamees';
+import ProjectLists from '../ProjectPage/Sections/ProjectLists';
+
 
 function LandingPage() {
   
-  const navigate = useNavigate();
-
-  const onClickHandler = () => {
-    console.log('로그아웃..')
-    axios.get(`/api/users/logout`)
-    .then(response => {
-      if(response.data.success){
-        navigate('/login');
-      }else{
-        alert('로그아웃실패')
-      }
-    })
-  }
 
   return (
-    <div style={{
-      display:'flex', justifyContent:'center',alignItems:'center',
-      width:'100%', height:'100vh'
-    }}>
-      <h2>시작페이지</h2>
-      <button onClick={onClickHandler}>
-        로그아웃
-      </button>
-    </div>
+    <>
+        <Visual>
+            <Inner>
+                <h1>당신이 무엇을 좋아하고 잘하는지 같이 알아가요<br />
+                </h1>
+                <button>참여하기</button>
+            </Inner>
+        </Visual>
+        <ProjectLists />
+        <Dreamees />
+        
+    </>
   )
 }
 
 export default LandingPage
+const Visual = styled.div`
+    background-image: url('images/dreamtogether_background.jpg');
+    width: 100%;
+    background-position: center;
+`
+const Inner = styled.div`
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    & h1 {
+        margin-bottom: 20px;
+        font-size: 18px; 
+    }
+    & button {
+        padding: 10px 50px;
+        border-radius: 30px;
+        background-color: transparent;
+        transition: .3s ;
+        font-size: 16px;
+        border: 1px solid black;
+        cursor: pointer;
+    }
+    & button:hover {
+        background-color: black;
+        color: white;
+    }
+`

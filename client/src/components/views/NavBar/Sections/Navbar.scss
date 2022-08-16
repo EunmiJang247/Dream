@@ -1,0 +1,100 @@
+header{
+  background-color: rgb(255,255,255);
+  .inner{
+    height: 72px;
+    position: relative;
+  }
+  .logo{
+
+    height: 58px;
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+
+
+    img{
+      display: block;
+    }
+  }
+  .main{
+    position: absolute;
+    bottom: 0;
+    left: 180px;
+    z-index: 1;
+    display: flex;
+
+    .item{
+      transition: all 0.3s;
+
+      &:hover{
+        .itemName{
+          color: red;
+        }
+      }
+
+      .itemName{
+        padding: 20px 23px;
+        font-size: 14.5px;
+        font-weight: 800;
+        cursor: pointer;
+
+        a{
+          color: #333 ;
+          &:hover{
+            color: red;
+          }
+        }
+      }
+      .itemContents{
+        width: 100%;
+        position: fixed;
+        left: 0;
+        background-color: white;
+       
+        .dropdownContentsOff{
+          opacity: 0;
+          transition: opacity .5s;
+          border: 1px solid rgb(241,241,241);
+          box-shadow: rgb(0 0 0 / 8%) 0px 26px 22.4165px;
+
+          .dropdownContentsMenu{
+            width: 872px;
+            margin: 0 auto;
+            height: 343px;
+            
+          }
+        }
+
+        .dropdownContentsOn{
+          opacity: 1;
+          transition: opacity .5s;
+
+          border: 1px solid rgb(241,241,241);
+          box-shadow: rgb(0 0 0 / 8%) 0px 26px 22.4165px;
+          .dropdownContentsMenu{
+            width: 872px;
+            margin: 0 auto;
+            height: 343px;
+            
+            
+          }
+        }
+
+      }
+    }
+  }
+}
+.Rowheight{
+  height: 100%;
+}
+
+.Colborder{
+  border-right: 1px solid #eaeaea;
+  
+}
+.ColborderInner{
+  padding: 30px;
+  font-size: 12px;
+}

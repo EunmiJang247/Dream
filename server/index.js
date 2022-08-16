@@ -12,6 +12,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/api/users', require("./routes/users"))
+app.use('/api/project', require("./routes/project"))
+app.use('/api/dreamee', require("./routes/dreamee"))
 
 app.use('/uploads', express.static('uploads'));
 
