@@ -14,6 +14,9 @@ import ProjectPage from './components/views/ProjectPage/ProjectPage';
 import Dreamee from './components/views/Dreamee/Dreamee';
 import DreameeDetail from './components/views/Dreamee/DreameeDetail';
 import ProjectDetail from './components/views/ProjectPage/ProjectDetail';
+import ProjectPostPage from './components/views/ProjectPage/ProjectPostPage';
+import DreameePostPage from './components/views/Dreamee/DreameePostPage';
+
 
 function App() {
  
@@ -22,6 +25,9 @@ function App() {
   const AuthRegister = Auth(RegisterPage,false,false);
   const AuthProject = Auth(ProjectPage,null,false)
   const AuthDreamee = Auth(Dreamee,null,false)
+  const AuthProjectDetail = Auth(ProjectDetail,null,false)
+  const AuthProjectPostPage = Auth(ProjectPostPage,null,false)
+  const AuthDreameePostPage = Auth(DreameePostPage,null,false)
 
   return (
     <>
@@ -31,9 +37,11 @@ function App() {
           <Route path='/' element={<AuthLandingPage />} /> 
           <Route path='/register' element={<AuthRegister />} />
           <Route path='/project/all' element={<AuthProject />} />
-          <Route path='/project/detail/:id' element={<ProjectDetail />} />
+          <Route path='/project/detail/:id' element={<AuthProjectDetail />} />
+          <Route path='/project/post' element={<AuthProjectPostPage />} />
           <Route path='/dreamee/all' element={<AuthDreamee />} />
           <Route path='/dreamee/detail/:id' element={<DreameeDetail />} />
+          <Route path='/dreamee/post' element={<AuthDreameePostPage />} />
 
           <Route path='/login' element={<AuthLogin />} />
       </Routes>

@@ -1,5 +1,11 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
 const dreameeSchema = mongoose.Schema({
+    userFrom: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     nickname : {
         type: String,
     },
@@ -7,8 +13,17 @@ const dreameeSchema = mongoose.Schema({
         type: String,
     },
     tech : {
+        type: Array,
+    },
+    introduce : {
         type: String,
     },
+    portfolio : {
+        type: String,
+    },
+    kakao : {
+        type: String,
+    }
 })
 
 const Dreamee = mongoose.model('Dreamee', dreameeSchema)

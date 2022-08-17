@@ -18,7 +18,7 @@ function Footer() {
 export default Footer;
 
 const FooterDiv = styled.div`
-    margin-top: 60px;
+    /* margin-top: 60px; */
     width: 100%;
     background-color: #333;
     height: 120px;

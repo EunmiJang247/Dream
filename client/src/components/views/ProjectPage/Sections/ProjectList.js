@@ -7,7 +7,7 @@ import styled from "styled-components";
 function ProjectList(props) {
   return (
     <List_body>
-    <div style={{width:'20%'}}>{props.project.projecttitle}</div>
+    <div style={{width:'20%'}}>{props.project.teamname}</div>
     <div style={{width:'45%'}}>
         <Link  to={{pathname: `/project/detail/${props.project._id}`}}>
         {props.project.projectdesc}

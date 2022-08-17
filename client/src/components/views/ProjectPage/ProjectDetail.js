@@ -2,26 +2,43 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Comment from './Sections/Comment';
+import Like from './Sections/Like';
+import Apply from './Sections/Apply';
 
 function ProjectDetail() {
     const {id} = useParams();
+    const variable = {projectId : id}
     
     const [Project, setProject] = useState([])
+    const [Comments, setComments] = useState([])
 
     useState(()=>{
       axios.get(`/api/project/${id}`)
         .then(response =>{
-          console.log(response.data)
           setProject(response.data)
         })
         .catch(err => alert(err))
+
+
+      axios.post('/api/comment/getComments',variable)  
+        .then(response =>{
+          setComments(response.data.comments)
+        })
+        .catch(err => alert(err))
     },[])
+
+    const refreshFunction = (newComment) => {
+      setComments(Comments.concat(newComment))
+    }
+
   return (
     <>
     <Main>
       <Head>
         <Title>
-          <TeamName>{Project.projecttitle}</TeamName>
+          <TeamName>{Project.projectdesc}</TeamName>
+          <Like projectId={id} />
         </Title>
         <Summary>
           <span>{Project.servicecate}/</span>
@@ -43,10 +60,13 @@ function ProjectDetail() {
         </RecruitContents>
         <br />
         <RecruitTitle>
-          댓글
+          모집 Position
         </RecruitTitle>
       </Recruit>
+      <Apply projectId={id} />
     </Main>
+    
+    <Comment refreshFunction={refreshFunction} commentLists={Comments} />
     </>
   )
 }

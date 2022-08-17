@@ -8,7 +8,7 @@ function Dreamee() {
     <div style={{textAlign: 'center'}}>
         <Header>Let's find Dreamees!</Header>
     </div>
-    <Dreamees />
+    <Dreamees Limit="20"/>
 
     </>
   )

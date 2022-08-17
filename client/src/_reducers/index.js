@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux';
-import user from './user_reducer'
+import user from './user';
+import project from './project';
 const rootReducer = combineReducers({
-    user
+    user, project,
 
 })
 

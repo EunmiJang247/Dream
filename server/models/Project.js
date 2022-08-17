@@ -1,21 +1,36 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
 const projectSchema = mongoose.Schema({
-    servicecate : {
-        type: String,
+    writer : {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
-    projecttitle : {
-        type: String,
-    },
-    projectdesc : {
-        type: String,
-    },
-    projectcontent : {
-        type: String,
-    },
-    position : {
+    purpose : {
         type: String,
     },
     meetingcycle : {
+        type: String,
+    },
+    projectdesc : {
+        type: String, //짧은설명
+    },
+    projectcontent : {
+        type: String, //긴설명
+    },
+    servicecate : {
+        type: String,
+    },
+    kakaoaddress: {
+        type: String,
+    },
+    mentoring : {
+        type : String,
+    },
+    teamname : {
+        type : String,
+    },
+    position : {
         type: String,
     },
     duedate : {
@@ -23,7 +38,7 @@ const projectSchema = mongoose.Schema({
     },
     regidate : {
         type: String,
-    }    
+    },
 })
 
 const Project = mongoose.model('Project', projectSchema)

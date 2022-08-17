@@ -4,15 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import {applyMiddleware, createStore} from 'redux';
-
 //app에 redux연결시켜주기위해.
+import  Reducer from './_reducers';
 import { Provider } from 'react-redux';
-
+import {createStore, applyMiddleware} from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
 
-import  Reducer from './_reducers';
+
 import { BrowserRouter } from 'react-router-dom';
 
 //미들웨어를 이용해야 객체뿐만아니라 function, promise도받게하기위해설정

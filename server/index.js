@@ -14,6 +14,9 @@ app.use(cookieParser());
 app.use('/api/users', require("./routes/users"))
 app.use('/api/project', require("./routes/project"))
 app.use('/api/dreamee', require("./routes/dreamee"))
+app.use('/api/comment', require("./routes/comment"))
+app.use('/api/like', require("./routes/like"))
+app.use('/api/apply', require("./routes/apply"))
 
 app.use('/uploads', express.static('uploads'));
 

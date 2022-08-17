@@ -4,27 +4,43 @@ import { useSelector,useDispatch } from "react-redux";
 import styled from "styled-components";
 import ProjectList from './ProjectList';
 
-function ProjectLists() {
-    const dispatch = useDispatch();
+function ProjectLists(props) {
     const [Skip, setSkip] = useState(0)
-    const [Limit, setLimit] = useState(2)
-    const [Products, setProducts] = useState([])
+    const [Limit, setLimit] = useState(props.Limit)
+    const [Project, setProject] = useState([])
+    const [PostSize, setPostSize] = useState(0)
 
     useEffect(()=>{
         let body = {
           skip: Skip,
           limit: Limit
         }
-        getProducts(body)
+        getProject(body)
       },[])
 
-      const getProducts = (body) => {
+      const getProject = (body) => {
         axios.post('/api/project', body)
           .then(response => { 
             if(response.data.success){
-                setProducts(response.data.projectInfo)
+                if(body.loadMore){
+                    setProject([...Project, ...response.data.projectInfo])
+                }else{
+                    setProject(response.data.projectInfo)
+                }
+                setPostSize(response.data.postSize)
             }
           })
+      }
+
+      const loadmoreHandler = () => {
+        let skip = Skip+Limit
+        let body = {
+          skip: skip,
+          limit: Limit,
+          loadMore : true
+        }
+        getProject(body)
+        // setSkip(skip)
       }
 
   return (
@@ -42,11 +58,12 @@ function ProjectLists() {
                 <div style={{width:'10%'}}>회의주기</div>
                 <div style={{width:'10%'}}>마감일 . 등록일</div>
             </List_head>
-            {Products.map((result)=>(
+            {Project.map((result)=>(
                 <ProjectList key={result._id} project={result}/>
             ))}
-
-
+            {PostSize >= Limit && !props.noButton && 
+            <LoadMoreBtn onClick={loadmoreHandler}>더보기</LoadMoreBtn>
+            }
         </Inner>
     </ChamyeoWrap>
     </>
@@ -93,4 +110,21 @@ const Dreambutton = styled.button`
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;    
+`
+const LoadMoreBtn = styled.button`
+  text-align: center;
+
+  width:100px;
+  margin: 30px auto;
+  display:block;
+
+  border-radius: 5px;
+  color: white;
+  padding: 10px 21px;
+  border: none;
+  background: rgb(232,52,78);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+
 `
