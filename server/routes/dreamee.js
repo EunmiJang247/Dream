@@ -6,7 +6,6 @@ const router = express.Router();
 
 
 router.post('/',(req,res)=>{
-    console.log('여긴옴')
     let limit = req.body.limit ? parseInt(req.body.limit) : 4;
     let skip = req.body.skip ? parseInt(req.body.skip) : 0 ;
     // let term = req.body.searchTerm
@@ -38,8 +37,6 @@ router.get('/:id', (req, res, next) => {
 //프로젝트등록
 router.post('/post',(req,res)=>{
     const dreamee = new Dreamee(req.body)
-    console.log(req.body)
-    console.log(dreamee)
     dreamee.save((err)=>{
         if(err){return res.status(400).json({success:false, err})}
         return res.status(200).json({success:true})

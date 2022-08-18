@@ -10,8 +10,7 @@ const Auth = () => {
     const CLIENT_SECRET = "priOvdE3FHb6PvbcAr3wS2nxGuMNU2F6";
 
     const code = new URL(window.location.href).searchParams.get("code");
-    // 카카오에서 코드를 돌려준다. 
-    console.log(code)
+    // 카카오에서 코드를 돌려준다.
 
     const navigate = useNavigate();
 

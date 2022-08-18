@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector,useDispatch } from "react-redux";
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import ProjectList from './ProjectList';
 
@@ -49,7 +50,7 @@ function ProjectLists(props) {
         <Inner>
             <div style={{height:'50px', position:'relative'}}>
                 <h5 style={{fontWeight : '600'}}>사이드프로젝트에 참여해볼래요? 😀 </h5>
-                <Dreambutton>드림프로젝트등록</Dreambutton>
+                <Link to={{pathname: `/project/post`}}><Dreambutton>드림프로젝트등록</Dreambutton></Link>
             </div>
             <List_head>
                 <div style={{width:'20%'}}>프로젝트명</div>

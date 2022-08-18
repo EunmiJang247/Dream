@@ -18,7 +18,6 @@ function DreameeDetail() {
         .catch(err => alert(err))
     },[])
 
-    console.log(Dreamee.tech)
   return (
     <>
     <Userdiv>

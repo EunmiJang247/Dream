@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Peopleneed from './Sections/Peopleneed';
 
 function Result(props) {
     const selectedanswer = useSelector((state)=> state.project.selectedanswer);
@@ -19,6 +20,8 @@ function Result(props) {
     const[kakaoaddress, setKakaoaddress] = useState("")
     const[longDesc, setLongDesc] = useState("")
     const[mentoring, setMentoring] = useState("")
+
+    
 
     useEffect(()=>{
         setPurpose(selectedanswer[0].answer);
@@ -55,7 +58,9 @@ function Result(props) {
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         // console.log('Change:', e.target.value);
         setShortDesc(e.target.value)
-      };
+    };
+
+
 
 
   return (
@@ -69,6 +74,10 @@ function Result(props) {
         <span style={{marginLeft:'10px', fontWeight: 'bold'}}>드림프로젝트 단어로 설명</span>
         <Input style={{ marginBottom:'10px'}} showCount maxLength={15} onChange={onChange} 
         />
+
+        <Peopleneed setDreamList/>
+        {/* <PeopleBoard />
+        <PeopleItem /> */}
 
         <span style={{marginLeft:'10px', fontWeight: 'bold'}}>오픈카톡방 주소</span>
         <Input style={{display:'block', marginBottom:'10px'}} size="default" placeholder="" 

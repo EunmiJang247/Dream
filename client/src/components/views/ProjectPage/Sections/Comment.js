@@ -24,12 +24,10 @@ function Comment(props) {
             writer : user.userData._id,
             projectId : id,
         }
-        console.log(variables)
 
         axios.post('/api/comment/saveComment',variables)
             .then(response => {
                 if(response.data.success){
-                    console.log(response.data.result)
                     props.refreshFunction(response.data.result)
                     setcommentValue("")
                 }else{

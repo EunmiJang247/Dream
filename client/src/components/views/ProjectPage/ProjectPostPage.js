@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BlueButton } from './Sections/BlueButton';
 import { next } from '../../../_action/project_action';
 import Questions from './Sections/Questions';
-import Result from './Sections/Result';
+import Result from './Result';
 const { Option } = Select;
 
 function ProjectPostPage() {

@@ -34,35 +34,39 @@ function Like(props) {
     },[])
 
   const onClickLike = () => {
-    if(Liked){
-        axios.post('/api/like/removefromLike',variables)
-            .then(response => {
-                if(response.data.success){
-                    setLikeNumber(LikeNumber-1)
-                    setLiked(!Liked)
-                }else{
-                    alert('Like빼기 실패')
-                }
-            })        
-
+    if(props.userid){
+        if(Liked){
+            axios.post('/api/like/removefromLike',variables)
+                .then(response => {
+                    if(response.data.success){
+                        setLikeNumber(LikeNumber-1)
+                        setLiked(!Liked)
+                    }else{
+                        alert('Like빼기 실패')
+                    }
+                })        
+    
+        }else{
+            axios.post('/api/like/addToLike',variables)
+                .then(response => {
+                    if(response.data.success){
+                        setLikeNumber(LikeNumber+1)
+                        setLiked(!Liked)
+                    }else{
+                        alert('Like추가 실패')
+                    }
+                })     
+        }
     }else{
-        axios.post('/api/like/addToLike',variables)
-            .then(response => {
-                if(response.data.success){
-                    setLikeNumber(LikeNumber+1)
-                    setLiked(!Liked)
-                }else{
-                    alert('Like추가 실패')
-                }
-            })     
+        alert('로그인이 필요한 기능입니다')
+    } 
 
-
-    }
   } 
 
   return (
     <>
-    <span onClick={onClickLike}>{Liked?"❤️":"🤍"}{LikeNumber}</span>
+    
+    <span style={{cursor: 'pointer'}} onClick={onClickLike}>{Liked?"❤️":"🤍"}{LikeNumber}</span>
      
 
     </>

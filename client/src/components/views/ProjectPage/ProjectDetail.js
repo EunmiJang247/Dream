@@ -6,7 +6,7 @@ import Comment from './Sections/Comment';
 import Like from './Sections/Like';
 import Apply from './Sections/Apply';
 
-function ProjectDetail() {
+function ProjectDetail(props) {
     const {id} = useParams();
     const variable = {projectId : id}
     
@@ -38,7 +38,7 @@ function ProjectDetail() {
       <Head>
         <Title>
           <TeamName>{Project.projectdesc}</TeamName>
-          <Like projectId={id} />
+          <Like projectId={id} userid={props.user.userData._id}/>
         </Title>
         <Summary>
           <span>{Project.servicecate}/</span>
