@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Project } = require('../models/Project');
+const { Apply } = require('../models/Apply');
 
 //모든프로젝트 조회
 router.post('/',(req,res)=>{
@@ -41,6 +42,42 @@ router.post('/post',(req,res)=>{
         return res.status(200).json({success:true})
     })
 })
+
+//내가올린 프로젝트 조회 
+router.post('/mypost/:id', (req, res, next) => {
+    const id = req.params.id;
+    let limit = req.body.limit ? parseInt(req.body.limit) : 20;
+    let skip = req.body.skip ? parseInt(req.body.skip) : 0 ;
+
+    Project.find({
+        writer : id })
+    .skip(skip)
+    .limit(limit)
+    .exec((err, projectInfo)=>{
+        if(err){return res.status(400).json({success: false, err})}
+        return res.status(200).json({
+            success:true, projectInfo,
+            postSize: projectInfo.length
+        })
+    })
+});
+
+//내가 지원한 프로젝트 조회 
+router.post('/myapply/:id', (req, res, next) => {
+    const id = req.params.id;
+
+    Apply.find({userFrom : id })
+    .populate('projectId')
+    .exec((err, projectInfo)=>{
+        if(err){return res.status(400).json({success: false, err})}
+        return res.status(200).json({
+            success:true, projectInfo,
+        })
+    })
+});
+
+
+
 
 
 module.exports = router;

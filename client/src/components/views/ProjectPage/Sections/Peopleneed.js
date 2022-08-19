@@ -2,24 +2,14 @@ import { Input, Radio, Select } from 'antd';
 import React, { useEffect, useState } from 'react'
 import PeopleList from './PeopleList';
 
-function Peopleneed({}) {
+function Peopleneed({setDreameeInfo}) {
 
     const [isChecked, setIsChecked] = useState(false)
     const [checkedItems, setCheckedItems] = useState(new Set())
+    
     const [test, setTest] = useState([])
     const [result, setResult] = useState(
-    [
-        {
-            position : 'front',
-            skill : 'nodeJs',
-            years : '3'
-        },
-        {
-            position : 'front',
-            skill : 'nodeJs',
-            years : '3'
-        },
-    ]
+    [ ]
     ) //기존 데이터 
 
     const [details, setDetails] = useState({
@@ -89,9 +79,10 @@ function Peopleneed({}) {
 
     //제출버튼
     const onSubmitHandler = (event) => {
-    event.preventDefault();
-    console.log('details',details)
-    setResult([...result, details])
+        event.preventDefault();
+        console.log('details',details)
+        setResult([...result, details])
+        setDreameeInfo(result)
     }
       
   return (
@@ -110,14 +101,13 @@ function Peopleneed({}) {
             )}
             </div>
             <span style={{marginLeft:'10px', fontWeight: 'bold'}}>기술스택</span>
-                {skillData.map((item)=>
-                    <label key={item.id}>
-                        <input type="checkbox" name="skill" value={item.name} 
-                        // onChange={(e)=>checkHandler(e)} 
+                {skillData.map((row,idx)=>
+                    <>
+                        <input type="checkbox" name="skill" value={row.name} 
                         onChange={checkHandler} 
                         />
-                        <span style={{paddingLeft:'5px'}}>{item.name}</span>
-                    </label>
+                        <span style={{paddingLeft:'5px'}}>{row.name}</span>
+                    </>
                 )}
             <br />
             <span style={{marginLeft:'10px', fontWeight: 'bold'}}>연차</span>
@@ -133,7 +123,7 @@ function Peopleneed({}) {
             <input type="submit" value="추가하기" onClick={onSubmitHandler}/>
         </div>
     </form>
-    <PeopleList result={result}/>
+    <PeopleList result={result} />
     </>
   )
 }

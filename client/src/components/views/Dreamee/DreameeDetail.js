@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 function DreameeDetail() {
     const {id} = useParams();
-    const dreameeId = {userId : id}
 
     const [Dreamee, setDreamee] = useState([])
 
@@ -14,6 +13,7 @@ function DreameeDetail() {
       axios.get(`/api/dreamee/${id}`)
         .then(response =>{
           setDreamee(response.data)
+          console.log(response.data)
         })
         .catch(err => alert(err))
     },[])

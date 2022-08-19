@@ -9,7 +9,7 @@ function ProjectPage() {
     <div style={{textAlign: 'center'}}>
         <Header>Let's find the best project!</Header>
     </div>
-    <ProjectLists Limit="15"/>
+    <ProjectLists Limit="15" AllLanding/>
     </>
   )
 }

@@ -9,6 +9,8 @@ import Log from './Sections/Log';
 import Footer from '../LandingPage/Sections/Footer';
 
 function NavBar({children}) {
+  const user = useSelector(state => state.user)
+  
 
   const [open, setOpen] = useState(false)
   const handleMouseHover = () => {
@@ -72,8 +74,10 @@ function NavBar({children}) {
               <div className='itemName'><Link to="/community">커뮤니티</Link></div>
             </li>
             <li className='item'>
-              <div className='itemName'><Link to="/mypage">마이페이지</Link></div>
-            </li>
+              {user.userData &&
+              <div className='itemName'><Link to={{pathname: `/mypage/mypostproject/${user.userData._id}`}}>마이페이지</Link></div>
+              }
+              </li>
           </ul>
             <Log />
         </div>

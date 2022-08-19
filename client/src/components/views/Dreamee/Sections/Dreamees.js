@@ -1,15 +1,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import Dreamee from './Dreamee';
 
 function Dreamees(props) {
+
+    const userid = useSelector((state) => state.user.userData)
+
     const [Skip, setSkip] = useState(0)
     const [Limit, setLimit] = useState(props.Limit)
     const [Dreamees, setDreamees] = useState([])
     const [PostSize, setPostSize] = useState(0)
+
+    const navigate = useNavigate();
 
     useEffect(()=>{
         let body = {
@@ -46,6 +51,22 @@ function Dreamees(props) {
         setSkip(skip)
       }
 
+    const regibutton = () => {      
+        axios.get(`/api/dreamee/mydreamee/${userid._id}`)
+        .then(response =>{
+          console.log(response.data)
+
+            //등록된드림이소개가 있는데 드림이등록을 또 누른 경우
+            if(response.data){
+              alert('이미 등록된 드림이 소개가 있습니다.')
+            }else{
+              navigate('/dreamee/post');
+            }
+
+        })
+        .catch(err => alert(err))
+
+    }    
   return (
     <>  
     <Dongryowrap>
@@ -53,7 +74,7 @@ function Dreamees(props) {
         <div style={{height:'50px', position:'relative'}}>
           <DreamIntro>동료를 소개합니다!🥰</DreamIntro>
           {!props.noButton &&
-          <Link to={{pathname: `/dreamee/post`}}><Dreambutton>드림이로등록</Dreambutton></Link>
+            <Dreambutton onClick={regibutton}>드림이로등록</Dreambutton>
           }
         </div>
             <Dongryowrapul> 

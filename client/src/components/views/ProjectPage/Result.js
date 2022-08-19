@@ -21,7 +21,7 @@ function Result(props) {
     const[longDesc, setLongDesc] = useState("")
     const[mentoring, setMentoring] = useState("")
 
-    
+    const[dreameeInfo, setDreameeInfo] = useState([])
 
     useEffect(()=>{
         setPurpose(selectedanswer[0].answer);
@@ -41,6 +41,7 @@ function Result(props) {
             kakaoaddress:kakaoaddress,
             mentoring:mentoring,    
             teamname:teamname,        
+            dreameeInfo:dreameeInfo
         }
 
     const onClickHandler = () => {
@@ -61,7 +62,7 @@ function Result(props) {
     };
 
 
-
+console.log('여기는',dreameeInfo)
 
   return (
     <>
@@ -75,7 +76,7 @@ function Result(props) {
         <Input style={{ marginBottom:'10px'}} showCount maxLength={15} onChange={onChange} 
         />
 
-        <Peopleneed setDreamList/>
+        <Peopleneed setDreameeInfo={setDreameeInfo}/>
         {/* <PeopleBoard />
         <PeopleItem /> */}
 

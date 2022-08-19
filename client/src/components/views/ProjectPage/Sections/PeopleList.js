@@ -2,7 +2,6 @@
 import React from 'react'
 
 function PeopleList({result}) {
-    console.log(result)
   return (
     <>
     {result.map((step)=>(

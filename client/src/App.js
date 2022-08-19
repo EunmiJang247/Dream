@@ -16,6 +16,10 @@ import DreameeDetail from './components/views/Dreamee/DreameeDetail';
 import ProjectDetail from './components/views/ProjectPage/ProjectDetail';
 import ProjectPostPage from './components/views/ProjectPage/ProjectPostPage';
 import DreameePostPage from './components/views/Dreamee/DreameePostPage';
+import Mydreameeintro from './components/views/MyPage/Mydreameeintro';
+import MyPostPage from './components/views/MyPage/MyPostPage';
+import MyApplyProject from './components/views/MyPage/MyApplyProject';
+import MyAccount from './components/views/MyPage/MyAccount';
 
 
 function App() {
@@ -28,6 +32,11 @@ function App() {
   const AuthProjectDetail = Auth(ProjectDetail,null,false)
   const AuthProjectPostPage = Auth(ProjectPostPage,null,false)
   const AuthDreameePostPage = Auth(DreameePostPage,null,false)
+
+  const AuthMyPostPage = Auth(MyPostPage,null,false)
+  const AuthMydreameeintro = Auth(Mydreameeintro,null,false)
+  const AuthMyApplyProject = Auth(MyApplyProject,null,false)
+  const AuthMyAccount = Auth(MyAccount,null,false)
 
   return (
     <>
@@ -42,8 +51,13 @@ function App() {
           <Route path='/dreamee/all' element={<AuthDreamee />} />
           <Route path='/dreamee/detail/:id' element={<DreameeDetail />} />
           <Route path='/dreamee/post' element={<AuthDreameePostPage />} />
-
+          
           <Route path='/login' element={<AuthLogin />} />
+
+          <Route path='/mypage/mypostproject/:userid' element={<AuthMyPostPage />} />
+          <Route path='/mypage/myapplyproject/:userid' element={< AuthMyApplyProject/>} />
+          <Route path='/mypage/mydreamee/:userid' element={<AuthMydreameeintro />} />
+          <Route path='/mypage/myaccount/:userid' element={<AuthMyAccount />} />
       </Routes>
     </NavBar>
     {/* </BrowserRouter> */}

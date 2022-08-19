@@ -20,7 +20,8 @@ function ProjectLists(props) {
       },[])
 
       const getProject = (body) => {
-        axios.post('/api/project', body)
+        if(props.AllLanding){
+          axios.post('/api/project', body)
           .then(response => { 
             if(response.data.success){
                 if(body.loadMore){
@@ -31,6 +32,36 @@ function ProjectLists(props) {
                 setPostSize(response.data.postSize)
             }
           })
+        }else if(props.MyPostProject){
+          axios.post(`/api/project/mypost/${props.userid}`, body)
+          .then(response => { 
+            if(response.data.success){
+                if(body.loadMore){
+                    setProject([...Project, ...response.data.projectInfo])
+                }else{
+                    setProject(response.data.projectInfo)
+                }
+                setPostSize(response.data.postSize)
+            }
+          })
+        }else if(props.MyApplyroject){
+          axios.post(`/api/project/myapply/${props.userid}`, body)
+          .then(response => { 
+            let projectArray = []
+            response.data.projectInfo.map((info)=>
+              projectArray.push(info.projectId)
+            )
+            if(response.data.success){
+                if(body.loadMore){
+                    setProject([...Project, ...projectArray])
+                }else{
+                    setProject(projectArray)
+                }
+                setPostSize(projectArray)
+            }
+          })
+        }
+
       }
 
       const loadmoreHandler = () => {
@@ -49,8 +80,12 @@ function ProjectLists(props) {
     <ChamyeoWrap>
         <Inner>
             <div style={{height:'50px', position:'relative'}}>
+                {!props.MyPostProject && 
+                <>
                 <h5 style={{fontWeight : '600'}}>사이드프로젝트에 참여해볼래요? 😀 </h5>
                 <Link to={{pathname: `/project/post`}}><Dreambutton>드림프로젝트등록</Dreambutton></Link>
+                </> 
+                }
             </div>
             <List_head>
                 <div style={{width:'20%'}}>프로젝트명</div>

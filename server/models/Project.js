@@ -39,6 +39,9 @@ const projectSchema = mongoose.Schema({
     regidate : {
         type: String,
     },
+    dreameeInfo : {
+        type: Array
+    }
 })
 
 const Project = mongoose.model('Project', projectSchema)

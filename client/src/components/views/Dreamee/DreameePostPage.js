@@ -1,12 +1,23 @@
 import { Input, Select } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import axios from 'axios';
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-const OPTIONS = ['React','Node','Vue','Php','AWS','Angular','Devops','Java'];
 
-function DreameePostPage() {
+
+const skillData = [
+    {id: 1, name: "React"},
+    {id: 2, name: "Node"},
+    {id: 3, name: "Vue"},
+    {id: 4, name: "fourth"},
+    {id: 5, name: "fifth"},
+    {id: 6, name: "sixth"},
+    {id: 7, name: "seventh"},
+    {id: 8, name: "eighth"},
+];
+function DreameePostPage(props) {
+    // console.log('props',props)
     const navigate = useNavigate();
     const [nickname,setNickname] = useState("")
     const [position,setPosition] = useState("")
@@ -14,13 +25,16 @@ function DreameePostPage() {
     const [kakao, setKakao] = useState("")
     const [selfintro, setSelfintro] = useState("")
 
+    const [updatetoggle, setUpdatetoggle] = useState(false);
+    
+    const [tech, setTech] = useState(props.mydreamee? props.mydreamee.tech : []);
 
     const onClickHandler = () => {
         const body={
             userFrom: localStorage.getItem('userId'),
             nickname:nickname,
             position:position,
-            tech:selectedItems,
+            tech:tech,
             introduce:selfintro,
             portfolio:portfolio,
             kakao:kakao,
@@ -35,53 +49,120 @@ function DreameePostPage() {
             }
           }) 
     }
-    const [selectedItems, setSelectedItems] = useState([]);
-    const filteredOptions = OPTIONS.filter((o) => !selectedItems.includes(o));
+    const [isChecked, setIsChecked] = useState(false)
+    const [checkedItems, setCheckedItems] = useState(new Set())
+
+    const checkHandler = (event) => {
+        setIsChecked(!isChecked);
+        checkedItemHandler(event.target.value, event.target.checked)
+    }
+    const checkedItemHandler = (Id,isChecked) => {
+        if(isChecked){
+            checkedItems.add(Id);
+            console.log(checkedItems)
+            setCheckedItems(checkedItems);
+        }else if(!isChecked && checkedItems.has(Id)){
+            checkedItems.delete(Id);
+            setCheckedItems(checkedItems);
+        }
+        setTech((prev) => {
+            return {...prev, skill :checkedItems}
+        })
+        // setResult(details)
+        return checkedItems;
+    };
+
   return (
-    <Resultdiv>
-        <ResultHead>Tell me more detail <br/>about yourself</ResultHead>
-        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>닉네임</span>
-        <Input style={{ display:'block', marginBottom:'10px'}} size="default" 
-        placeholder="" onChange={(e)=>setNickname(e.target.value)}
-        />
+    <>
 
-        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>지원예정/현재 직군</span>
-        <Input style={{ display:'block', marginBottom:'10px'}} size="default" 
-        placeholder="" onChange={(e)=>setPosition(e.target.value)}
-        />
+    {!updatetoggle && props.mydreamee &&
+    //마이페이지의 내 드림이소개에서 접근한 경우 
+        <Resultdiv>
+            <ResultHead>Tell me more detail <br/>about yourself</ResultHead>
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>닉네임 들옴</span>
+            <Input style={{ display:'block', marginBottom:'10px'}} size="default" 
+            placeholder="" 
+            value={props.mydreamee.nickname}
+            />
 
-        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>기술스택</span>
-            <Select
-            mode="multiple"
-            placeholder="Inserted are removed"
-            value={selectedItems}
-            onChange={setSelectedItems}
-            style={{
-                width: '100%',
-            }}
-            >
-            {filteredOptions.map((item) => (
-                <Select.Option key={item} value={item}>
-                {item}
-                </Select.Option>
-            ))}
-            </Select>
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>지원예정/현재 직군</span>
+            <Input style={{ display:'block', marginBottom:'10px'}} size="default" 
+            placeholder="" 
+            value={props.mydreamee.position}
+            />
 
-        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>포트폴리오 웹사이트</span>
-        <Input style={{ display:'block', marginBottom:'10px'}} size="default" 
-        placeholder="" onChange={(e)=>setPortfolio(e.target.value)}
-        />  
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>기술스택</span>
+                {skillData.map((row,idx)=>
+                    <>
+                        <input type="checkbox" name="skill" value={row.name} 
+                        />
+                        <span style={{paddingLeft:'5px'}}>{row.name}</span>
+                    </>
+                )}
+            <br />
 
-        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>카카오아이디(프로젝트 수락할 경우에만 열람이 가능합니다)</span>
-        <Input style={{display:'block', marginBottom:'10px'}} size="default" 
-        placeholder="" onChange={(e)=>setKakao(e.target.value)}
-        />
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>포트폴리오 웹사이트</span>
+            <Input style={{ display:'block', marginBottom:'10px'}} size="default" 
+            placeholder="" 
+            value={props.mydreamee.portfolio}
+            />  
 
-        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>자신에 대한 간략한 설명</span>
-        <TextArea rows={4} onChange={(e)=>setSelfintro(e.target.value)}/>
-        
-        <SubmitButton onClick={onClickHandler}>최종 제출하기</SubmitButton>
-    </Resultdiv>
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>카카오아이디(프로젝트 수락할 경우에만 열람이 가능합니다)</span>
+            <Input style={{display:'block', marginBottom:'10px'}} size="default" 
+            placeholder="" 
+            value={props.mydreamee.kakao}
+            />
+
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>자신에 대한 간략한 설명</span>
+            <TextArea rows={4} 
+            value={props.mydreamee.introduce}
+            />
+            
+            <SubmitButton onClick={onClickHandler}>최종 제출하기</SubmitButton>
+        </Resultdiv>
+    }
+    {!updatetoggle &&
+        <Resultdiv>
+            <ResultHead>Tell me more detail <br/>about yourself</ResultHead>
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>닉네임</span>
+            <Input style={{ display:'block', marginBottom:'10px'}} size="default" 
+            placeholder="" onChange={(e)=>setNickname(e.target.value)}
+            />
+
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>지원예정/현재 직군</span>
+            <Input style={{ display:'block', marginBottom:'10px'}} size="default" 
+            placeholder="" onChange={(e)=>setPosition(e.target.value)}
+            />
+
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>기술스택</span>
+                {skillData.map((row,idx)=>
+                    <>
+                        <input type="checkbox" name="skill" value={row.name} 
+                        onChange={checkHandler} 
+                        />
+                        <span style={{paddingLeft:'5px'}}>{row.name}</span>
+                    </>
+                )}
+            <br />
+
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>포트폴리오 웹사이트</span>
+            <Input style={{ display:'block', marginBottom:'10px'}} size="default" 
+            placeholder="" onChange={(e)=>setPortfolio(e.target.value)}
+            />  
+
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>카카오아이디(프로젝트 수락할 경우에만 열람이 가능합니다)</span>
+            <Input style={{display:'block', marginBottom:'10px'}} size="default" 
+            placeholder="" onChange={(e)=>setKakao(e.target.value)}
+            />
+
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>자신에 대한 간략한 설명</span>
+            <TextArea rows={4} onChange={(e)=>setSelfintro(e.target.value)}/>
+            
+            <SubmitButton onClick={onClickHandler}>최종 제출하기</SubmitButton>
+        </Resultdiv>
+    }
+    </>
+
   )
 }
 

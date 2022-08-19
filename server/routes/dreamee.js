@@ -43,5 +43,18 @@ router.post('/post',(req,res)=>{
     })
 })
 
+//userid로 특정드림이 조회
+router.get('/mydreamee/:userid', (req, res, next) => {
+    console.log('왓')
+    console.log(req.params.userid)
+    Dreamee.findOne({
+        userFrom : req.params.userid },
+        ).then((result) => {
+        res.json(result);
+    }).catch((err) => {
+        res.send(err);
+    });
+});
+
 
 module.exports = router;

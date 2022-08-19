@@ -20,7 +20,7 @@ function LandingPage() {
                 <button>참여하기</button>
             </Inner>
         </Visual>
-        <ProjectLists noButton Limit="4"/>
+        <ProjectLists noButton Limit="4" AllLanding/>
         <Dreamees noButton Limit="8"/>
         
     </>
