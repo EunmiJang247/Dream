@@ -25,7 +25,7 @@ import MyAccount from './components/views/MyPage/MyAccount';
 function App() {
  
   const AuthLandingPage = Auth(LandingPage,null,false);
-  const AuthLogin = Auth(LoginPage,null,false);
+  const AuthLogin = Auth(LoginPage,false,false);
   const AuthRegister = Auth(RegisterPage,false,false);
   const AuthProject = Auth(ProjectPage,null,false)
   const AuthDreamee = Auth(Dreamee,null,false)
@@ -33,10 +33,10 @@ function App() {
   const AuthProjectPostPage = Auth(ProjectPostPage,null,false)
   const AuthDreameePostPage = Auth(DreameePostPage,null,false)
 
-  const AuthMyPostPage = Auth(MyPostPage,null,false)
-  const AuthMydreameeintro = Auth(Mydreameeintro,null,false)
-  const AuthMyApplyProject = Auth(MyApplyProject,null,false)
-  const AuthMyAccount = Auth(MyAccount,null,false)
+  const AuthMyPostPage = Auth(MyPostPage,true,false)
+  const AuthMydreameeintro = Auth(Mydreameeintro,true,false)
+  const AuthMyApplyProject = Auth(MyApplyProject,true,false)
+  const AuthMyAccount = Auth(MyAccount,true,false)
 
   return (
     <>

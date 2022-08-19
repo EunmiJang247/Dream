@@ -45,7 +45,6 @@ router.post('/post',(req,res)=>{
 
 //userid로 특정드림이 조회
 router.get('/mydreamee/:userid', (req, res, next) => {
-    console.log('왓')
     console.log(req.params.userid)
     Dreamee.findOne({
         userFrom : req.params.userid },
@@ -54,6 +53,27 @@ router.get('/mydreamee/:userid', (req, res, next) => {
     }).catch((err) => {
         res.send(err);
     });
+});
+
+//드림이 수정
+router.put('/:dreamid', (req, res, next) => {
+    console.log(req.params.dreamid)
+    console.log(req.body)
+    // Dreamee.findOne({_id : req.params.dreamid },
+    //     {$set:
+    //         {   
+    //             nickname : req.body.content.servicecate,
+    //             position : req.body.content.projecttitle,
+    //             tech : req.body.content.projectdesc,
+    //             introduce : req.body.content.position,
+    //             portfolio : req.body.content.meetingcycle,
+    //             kakao : req.body.content.duedate,
+    //         },
+    //     }).then((result) => {
+    // res.json(result);
+    // }).catch((err) => {
+    //     res.send(err);
+    // });
 });
 
 

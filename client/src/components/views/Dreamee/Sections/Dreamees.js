@@ -11,7 +11,7 @@ function Dreamees(props) {
 
     const [Skip, setSkip] = useState(0)
     const [Limit, setLimit] = useState(props.Limit)
-    const [Dreamees, setDreamees] = useState([])
+    const [DreameeLists, setDreameeLists] = useState([])
     const [PostSize, setPostSize] = useState(0)
 
     const navigate = useNavigate();
@@ -29,9 +29,9 @@ function Dreamees(props) {
           .then(response => { 
             if(response.data.success){
                 if(body.loadMore){
-                  setDreamees([...Dreamees, ...response.data.dreameeInfo])
+                  setDreameeLists([...DreameeLists, ...response.data.dreameeInfo])
                 }else{
-                  setDreamees(response.data.dreameeInfo)
+                  setDreameeLists(response.data.dreameeInfo)
                 }
                 setPostSize(response.data.postSize)
             }else{
@@ -67,20 +67,29 @@ function Dreamees(props) {
         .catch(err => alert(err))
 
     }    
+
+
+    console.log( DreameeLists )
+
   return (
     <>  
     <Dongryowrap>
         <Inner>
-        <div style={{height:'50px', position:'relative'}}>
+         <div style={{height:'50px', position:'relative'}}>
           <DreamIntro>동료를 소개합니다!🥰</DreamIntro>
           {!props.noButton &&
             <Dreambutton onClick={regibutton}>드림이로등록</Dreambutton>
           }
         </div>
-            <Dongryowrapul> 
-            {Dreamees && Dreamees.map((result)=>(
-                <Dreamee key={result._id} dreamee={result} />
-            ))}
+           <Dongryowrapul> 
+            {DreameeLists && DreameeLists.map((DreameeList,index)=>
+              <>
+                <Dreamee
+                key={DreameeList._id} 
+                dreamee={DreameeList} 
+                />
+              </>
+            )}
             </Dongryowrapul>
             {PostSize >= Limit && !props.noButton && 
               <LoadMoreBtn onClick={loadmoreHandler}>더보기</LoadMoreBtn>

@@ -67,12 +67,12 @@ function NavBar({children}) {
             <li className='item'>
               <div className='itemName'><Link to="/dreamee/all">드림이들</Link></div>
             </li>
-            <li className='item'>
+            {/* <li className='item'>
               <div className='itemName'><Link to="/metoring">멘토링</Link></div>
-            </li>
-            <li className='item'>
-              <div className='itemName'><Link to="/community">커뮤니티</Link></div>
-            </li>
+            </li> */}
+            {/* <li className='item'>
+              <div className='itemName'><Link to="/community">고민&막힌코드공유</Link></div>
+            </li> */}
             <li className='item'>
               {user.userData &&
               <div className='itemName'><Link to={{pathname: `/mypage/mypostproject/${user.userData._id}`}}>마이페이지</Link></div>

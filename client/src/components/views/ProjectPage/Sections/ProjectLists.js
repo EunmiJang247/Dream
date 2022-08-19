@@ -83,7 +83,9 @@ function ProjectLists(props) {
                 {!props.MyPostProject && 
                 <>
                 <h5 style={{fontWeight : '600'}}>사이드프로젝트에 참여해볼래요? 😀 </h5>
+                {!props.noButton &&
                 <Link to={{pathname: `/project/post`}}><Dreambutton>드림프로젝트등록</Dreambutton></Link>
+                }
                 </> 
                 }
             </div>
@@ -122,12 +124,11 @@ const List_head = styled.div`
     line-height: 38px;
     box-sizing: border-box;
     color: #888;
-    background: rgb(212, 212, 212);;
+    background: #F6F6F6;
     display: flex;
 
     font-size: 13px;
     & div {
-        background: #FAFAFA;
         width: 20% ;
         text-align: center;
     }

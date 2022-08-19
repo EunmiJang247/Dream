@@ -18,17 +18,18 @@ const skillData = [
 ];
 function DreameePostPage(props) {
     // console.log('props',props)
+    
     const navigate = useNavigate();
-    const [nickname,setNickname] = useState("")
-    const [position,setPosition] = useState("")
-    const [portfolio,setPortfolio] = useState("")
-    const [kakao, setKakao] = useState("")
-    const [selfintro, setSelfintro] = useState("")
+    const [nickname,setNickname] = useState(props.mydreamee? props.mydreamee.nickname : "")
+    const [position,setPosition] = useState(props.mydreamee? props.mydreamee.position :"")
+    const [portfolio,setPortfolio] = useState(props.mydreamee? props.mydreamee.portfolio :"")
+    const [kakao, setKakao] = useState(props.mydreamee? props.mydreamee.kakao :"")
+    const [selfintro, setSelfintro] = useState(props.mydreamee? props.mydreamee.kakao :"")
 
     const [updatetoggle, setUpdatetoggle] = useState(false);
     
     const [tech, setTech] = useState(props.mydreamee? props.mydreamee.tech : []);
-
+    // console.log(props.mydreamee.tech)
     const onClickHandler = () => {
         const body={
             userFrom: localStorage.getItem('userId'),
@@ -38,6 +39,7 @@ function DreameePostPage(props) {
             introduce:selfintro,
             portfolio:portfolio,
             kakao:kakao,
+            selfintro:selfintro,
         }
         axios.post(`/api/dreamee/post`, body)
         .then(response => {
@@ -72,11 +74,40 @@ function DreameePostPage(props) {
         return checkedItems;
     };
 
+    const onModifyHandler = () => {
+        setUpdatetoggle(prev => !prev)
+    }
+
+    const onModifyCompleteHandler = () => {
+        console.log('수정완료')
+        const body={
+            userFrom: localStorage.getItem('userId'),
+            nickname:nickname,
+            position:position,
+            tech:tech,
+            introduce:selfintro,
+            portfolio:portfolio,
+            kakao:kakao,
+        }
+        
+        axios.put(`/api/dreamee/${props.mydreamee._id}`, body)
+        // .then(response => {
+        //     if(response.data.success){
+        //       alert('프로젝트 업로드 성공!')
+        //       navigate('/');
+        //     }else{
+        //       alert('업로드 실패')
+        //     }
+        //   }) 
+        setUpdatetoggle(prev => !prev)
+
+    }
+
   return (
     <>
 
     {!updatetoggle && props.mydreamee &&
-    //마이페이지의 내 드림이소개에서 접근한 경우 
+    //마이페이지의 내 드림이소개에서 접근한 경우, 수정버튼 안누른경우 
         <Resultdiv>
             <ResultHead>Tell me more detail <br/>about yourself</ResultHead>
             <span style={{marginLeft:'10px', fontWeight: 'bold'}}>닉네임 들옴</span>
@@ -118,13 +149,67 @@ function DreameePostPage(props) {
             value={props.mydreamee.introduce}
             />
             
-            <SubmitButton onClick={onClickHandler}>최종 제출하기</SubmitButton>
+            <SubmitButton onClick={onModifyHandler}>수정하기</SubmitButton>
         </Resultdiv>
     }
-    {!updatetoggle &&
+
+    {updatetoggle && props.mydreamee &&
+    //마이페이지의 내 드림이소개에서 접근한 경우, 수정버튼 누른경우
         <Resultdiv>
             <ResultHead>Tell me more detail <br/>about yourself</ResultHead>
-            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>닉네임</span>
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>닉네임 수정</span>
+            <input style={{ display:'block', marginBottom:'10px'}} size="default" 
+            placeholder="" 
+            defaultValue={props.mydreamee.nickname}
+            onChange={(e)=>setNickname(e.target.value)}
+            />
+
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>지원예정/현재 직군</span>
+            <input style={{ display:'block', marginBottom:'10px'}} size="default" 
+            placeholder="" 
+            defaultValue={props.mydreamee.position}
+            onChange={(e)=>setPosition(e.target.value)}
+            />
+
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>기술스택</span>
+                {skillData.map((row,idx)=>
+                    <>
+                        <input type="checkbox" name="skill" defaultValue={row.name} 
+                        onChange={checkHandler} 
+                        />
+                        <span style={{paddingLeft:'5px'}}>{row.name}</span>
+                    </>
+                )}
+            <br />
+
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>포트폴리오 웹사이트</span>
+            <input style={{ display:'block', marginBottom:'10px'}} size="default" 
+            placeholder="" onChange={(e)=>setPortfolio(e.target.value)}
+            defaultValue={props.mydreamee.portfolio}
+            
+            />  
+
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>카카오아이디(프로젝트 수락할 경우에만 열람이 가능합니다)</span>
+            <input style={{display:'block', marginBottom:'10px'}} size="default" 
+            placeholder=""  onChange={(e)=>setKakao(e.target.value)}
+            defaultValue={props.mydreamee.kakao}
+            />
+
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>자신에 대한 간략한 설명</span>
+            <textarea rows={4}  onChange={(e)=>setSelfintro(e.target.value)}
+            defaultValue={props.mydreamee.introduce}
+            />
+            
+            <SubmitButton onClick={onModifyCompleteHandler}>수정완료</SubmitButton>
+        </Resultdiv>
+    }
+
+
+    {!updatetoggle && !props.mydreamee &&
+    //드림이 신규작성의 경우
+        <Resultdiv>
+            <ResultHead>Tell me more detail <br/>about yourself</ResultHead>
+            <span style={{marginLeft:'10px', fontWeight: 'bold'}}>닉네임 신규작성</span>
             <Input style={{ display:'block', marginBottom:'10px'}} size="default" 
             placeholder="" onChange={(e)=>setNickname(e.target.value)}
             />

@@ -4,19 +4,25 @@ import styled from "styled-components";
 
 function Dreamee(props) {
     const postid = props.dreamee._id;
+    console.log('tech는',props.dreamee.tech)
+    const dreammtech = ""
   return (
     <Dongryowrapli>
-    <DongryowrapliDiv>
-        <Link to={{
-        pathname: `/dreamee/detail/${postid}`}}
-        >
-        <span><img src="" alt="" /></span>
-        <strong>{props.dreamee.nickname}</strong>
-        <p>{props.dreamee.position}</p>
-        <em>{props.dreamee.tech}</em>
-        </Link>
-    </DongryowrapliDiv>
-</Dongryowrapli>
+        <DongryowrapliDiv>
+            <Link to={{
+            pathname: `/dreamee/detail/${postid}`}}
+            >
+            <span><img src="" alt="" /></span>
+            <strong>{props.dreamee.nickname}</strong>
+            <p>{props.dreamee.position}</p>            
+            
+            {props.dreamee.tech && props.dreamee.tech.map((tech)=>(
+               <p>{tech},</p>
+            ))}
+
+            </Link>
+        </DongryowrapliDiv>
+    </Dongryowrapli>
   )
 }
 

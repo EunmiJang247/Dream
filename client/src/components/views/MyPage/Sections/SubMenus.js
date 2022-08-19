@@ -14,26 +14,26 @@ function SubMenus() {
                 {user && 
                 <>
                 <MyMenu>
-                    <Link to={{
+                    <Link style={{color: '#333'}} to={{
                         pathname: `/mypage/mypostproject/${user.userData._id}`
                     }}>내가올린 드림프로젝트</Link>
                 </MyMenu>
                 <MyMenu>
-                    <Link to={{
+                    <Link style={{color: '#333'}} to={{
                         pathname: `/mypage/myapplyproject/${user.userData._id}`
                     }}>
                     내가 지원한 드림프로젝트
                     </Link>
                 </MyMenu>
                 <MyMenu>
-                    <Link to={{
+                    <Link style={{color: '#333'}} to={{
                         pathname: `/mypage/mydreamee/${user.userData._id}`
                     }}>
                     내 드림이소개
                     </Link>
                 </MyMenu>
                 <MyMenu>
-                    <Link to={{
+                    <Link style={{color: '#333'}} to={{
                         pathname: `/mypage/myaccount/${user.userData._id}`
                     }}>
                     내 계정
