@@ -14,14 +14,13 @@ function Result(props) {
     const[purpose, setPurpose] = useState("")
     const[servicecate, setServicecate] = useState("")
     const[meetingcycle, setMeetingcycle] = useState("")
+    const[mentoring, setMentoring] = useState("")
 
     const[teamname, setTeamname] = useState("")
     const[shortDesc, setShortDesc] = useState("")
+    const[dreameeInfo, setDreameeInfo] = useState([])
     const[kakaoaddress, setKakaoaddress] = useState("")
     const[longDesc, setLongDesc] = useState("")
-    const[mentoring, setMentoring] = useState("")
-
-    const[dreameeInfo, setDreameeInfo] = useState([])
 
     useEffect(()=>{
         setPurpose(selectedanswer[0].answer);
@@ -45,6 +44,23 @@ function Result(props) {
         }
 
     const onClickHandler = () => {
+      if(teamname === ""){
+        alert('팀이름을 작성해주세요')
+        return
+      }else if(shortDesc ===""){
+        alert('프로젝트 한단어 설명을 작성해주세요')
+        return
+      }else if(dreameeInfo=[]){
+        alert('구인목록을 작성해주세요')
+        return
+      }else if(kakaoaddress === ""){
+        alert('오픈카톡방 주소를 입력해주세요')
+        return
+      }else if(longDesc === ""){
+        alert('드림프로젝트 상세설명을 입력해주세요')
+        return
+      }
+
         axios.post(`/api/project/post`, body)
         .then(response => {
             if(response.data.success){
@@ -60,9 +76,6 @@ function Result(props) {
         // console.log('Change:', e.target.value);
         setShortDesc(e.target.value)
     };
-
-
-console.log('여기는',dreameeInfo)
 
   return (
     <>

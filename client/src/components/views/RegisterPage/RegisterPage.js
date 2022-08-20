@@ -9,12 +9,23 @@ function RegisterPage(props) {
   const navigate = useNavigate();
 
   const [Email, setEmail] = useState("")
+  const [emailvalid, SetEmailvalid] = useState(false)
+
   const [Name, setName] = useState("")
+
   const [Password, setPassword] = useState("")
+  const [Passwordvalid, SetPasswordvalid] = useState(false)
+
   const [ConfirmPassword, setConfirmPassword] = useState("")
 
   const onEmailHandler = (event) => {
     setEmail(event.target.value);
+
+    var regExpemail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
+    // console.log('이메일 유효성검사 ::', regExpemail.test(event.target.value))
+    //  8 ~ 10자 영문, 숫자 조합
+    if(regExpemail.test(event.target.value)){SetEmailvalid(true)}
+    else{SetEmailvalid(false)}
   }
 
   const onNameHandler = (event) => {
@@ -23,6 +34,10 @@ function RegisterPage(props) {
 
   const onPasswordHandler = (event) => {
     setPassword(event.target.value);
+    var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/
+    //  8 ~ 10자 영문, 숫자 조합
+    if(regExp.test(event.target.value)){SetPasswordvalid(true)}
+    else{SetPasswordvalid(false)}
   }
 
   const onConfirmPassword = (event) => {
@@ -31,15 +46,26 @@ function RegisterPage(props) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
+
+    if(!emailvalid){
+      alert('이메일을 확인해주세요')
+      return
+    }else if(Name === ""){
+      alert('닉네임을을 입력하세요')
+      return
+    }else if(!Passwordvalid){
+      alert('8 ~ 10자 영문, 숫자 조합 비밀번호를 입력하세요')
+      return
+    }else if(ConfirmPassword !== Password){
+      alert('비밀번호와 비밀번호 확인이 다릅니다')
+      return
+    }
+    
     //이제 axios를 써서 서버에 데이터를보내겠다
     let body = {
       email : Email,
       Name : Name,
       password : Password
-    }
-
-    if(Password !== ConfirmPassword){
-      return alert('비밀번호와확인은같아야합니다')
     }
 
     dispatch(registerUser(body))
@@ -51,21 +77,24 @@ function RegisterPage(props) {
         }
       } )
   }
+
   return (
     <>
     <Signin>
       <LoginBox>
         <LoginH2><StrongSpan>Welcome! </StrongSpan>드림투게더에 오신것을 환영합니다</LoginH2>
         <LoginForm onSubmit={onSubmitHandler}>
-          <LoginInput type="text" placeholder='아이디를입력하세요' onChange={onEmailHandler} />
-          <LoginInput type="text" placeholder='이름을입력하세요' onChange={onNameHandler}/>
-          <LoginInput type="password" placeholder='비밀번호를입력하세요' onChange={onPasswordHandler}/>
+          <LoginInput type="text" placeholder='이메일을 입력하세요' onChange={onEmailHandler} />
+            {emailvalid ? "" : <span style={{fontSize:'8px', marginLeft: '8px'}}>이메일 형식으로 작성해주세요</span>}
+          <LoginInput type="text" placeholder='닉네임을 입력하세요' onChange={onNameHandler}/>
+          <LoginInput type="password" placeholder='비밀번호를 입력하세요' onChange={onPasswordHandler}/>
+            {Passwordvalid ? "" : <span style={{fontSize:'8px', marginLeft: '8px'}}>8 ~ 10자 영문, 숫자 조합으로 작성해주세요</span>}
           <LoginInput type="password" placeholder='비밀번호를 한번 더 입력하세요' onChange={onConfirmPassword}/>
+            {ConfirmPassword && ConfirmPassword === Password? <span style={{fontSize:'8px', marginLeft: '8px'}}>일치합니다</span> : ""}
           <SubmitInput type="submit" value="회원가입하기" />
           <Link to={{pathname: `/login`}}><Hellowp>로그인</Hellowp></Link>
         </LoginForm>
       </LoginBox>
-
     </Signin>
   </>
   )
@@ -93,7 +122,6 @@ const LoginH2 = styled.h2`
     font-size: 14px;
     text-align: center;
     border-bottom: 1px solid #ddd;
-
 `
 const StrongSpan = styled.span`
     font-weight: 700;
@@ -104,7 +132,7 @@ const LoginForm = styled.form`
 `
 const LoginInput = styled.input`
     width: 100%;
-    margin-bottom: 6px;
+    margin-top: 6px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -125,7 +153,6 @@ const SubmitInput = styled.input`
     border-radius: 4px;
     outline: none;
     box-sizing: border-box;
-
 `
 const Hellowp = styled.p`
     margin-top: 10px;

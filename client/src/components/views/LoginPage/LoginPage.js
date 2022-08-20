@@ -21,6 +21,15 @@ function LoginPage(props) {
   }
 
   const onSubmitHandler = (event) => {
+
+    if(Email === ""){
+      alert('이메일을 입력해주세요')
+      return
+    }else if(Password === ""){
+      alert('비밀번호를 입력해주세요')
+      return
+    }
+
     event.preventDefault();
     //이제 axios를 써서 서버에 데이터를보내겠다
     let body = {
@@ -34,7 +43,7 @@ function LoginPage(props) {
           window.localStorage.setItem('userId', response.payload.userId);
           navigate('/');
         }else{
-          alert('Error')
+          alert('이메일과 비밀번호를 확인해주세요')
         }
     })
   }
@@ -45,7 +54,7 @@ function LoginPage(props) {
       <LoginBox>
         <LoginH2><StrongSpan>Welcome! </StrongSpan>드림투게더에 오신것을 환영합니다</LoginH2>
         <LoginForm onSubmit={onSubmitHandler}>
-          <LoginInput type="text" placeholder='아이디를입력하세요' onChange={onEmailHandler} />
+          <LoginInput type="text" placeholder='이메일을입력하세요' onChange={onEmailHandler} />
           <LoginInput type="password" placeholder='비밀번호를입력하세요' onChange={onPasswordHandler}/>
           <SubmitInput type="submit" value="로그인" />
           <Link to={{pathname: `/register`}}><Hellowp>회원가입하기</Hellowp></Link>

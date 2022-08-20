@@ -22,15 +22,34 @@ function DreameePostPage(props) {
     const navigate = useNavigate();
     const [nickname,setNickname] = useState(props.mydreamee? props.mydreamee.nickname : "")
     const [position,setPosition] = useState(props.mydreamee? props.mydreamee.position :"")
+    const [tech, setTech] = useState(props.mydreamee? props.mydreamee.tech : []);
     const [portfolio,setPortfolio] = useState(props.mydreamee? props.mydreamee.portfolio :"")
     const [kakao, setKakao] = useState(props.mydreamee? props.mydreamee.kakao :"")
     const [selfintro, setSelfintro] = useState(props.mydreamee? props.mydreamee.kakao :"")
 
     const [updatetoggle, setUpdatetoggle] = useState(false);
     
-    const [tech, setTech] = useState(props.mydreamee? props.mydreamee.tech : []);
-    // console.log(props.mydreamee.tech)
     const onClickHandler = () => {
+        if(nickname === ""){
+            alert('닉네임을 입력해주세요')
+            return
+        }else if(position === ""){
+            alert('직군을을 입력해주세요')
+            return
+        }else if(tech === ""){
+            alert('기술을 입력해주세요')
+            return
+        }else if(portfolio === ""){
+            alert('포트폴리오 주소를 입력해주세요')
+            return
+        }else if(kakao === ""){
+            alert('카카오아이디를 입력해주세요')
+            return
+        }else if(selfintro === ""){
+            alert('간략한 설명 부분을 입력해주세요')
+            return
+        }
+
         const body={
             userFrom: localStorage.getItem('userId'),
             nickname:nickname,
@@ -79,7 +98,26 @@ function DreameePostPage(props) {
     }
 
     const onModifyCompleteHandler = () => {
-        console.log('수정완료')
+        if(nickname === ""){
+            alert('닉네임을 입력해주세요')
+            return
+        }else if(position === ""){
+            alert('직군을을 입력해주세요')
+            return
+        }else if(tech === ""){
+            alert('기술을 입력해주세요')
+            return
+        }else if(portfolio === ""){
+            alert('포트폴리오 주소를 입력해주세요')
+            return
+        }else if(kakao === ""){
+            alert('카카오아이디를 입력해주세요')
+            return
+        }else if(selfintro === ""){
+            alert('간략한 설명 부분을 입력해주세요')
+            return
+        }
+        
         const body={
             userFrom: localStorage.getItem('userId'),
             nickname:nickname,
