@@ -10,6 +10,9 @@ const applySchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Project'
     },
+    Acceptornot: {
+        type: Boolean,
+    },
 
 },{timestamps: true})
 

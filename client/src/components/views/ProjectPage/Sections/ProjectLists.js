@@ -94,13 +94,19 @@ function ProjectLists(props) {
                 <div style={{width:'45%'}}>이름</div>
                 <div style={{width:'15%'}}>지원자격</div>
                 <div style={{width:'10%'}}>회의주기</div>
-                <div style={{width:'10%'}}>마감일 . 등록일</div>
+                {props.MyPostProject&& 
+                  <div style={{width:'10%'}}>지원현황</div>
+                }
+                {!props.MyPostProject&& 
+                  <div style={{width:'10%'}}>마감일 . 등록일</div>
+                }
+                
             </List_head>
             {Project.map((result)=>(
-                <ProjectList key={result._id} project={result}/>
+              <ProjectList key={result._id} project={result} MyPostProject={props.MyPostProject}/>
             ))}
             {PostSize >= Limit && !props.noButton && 
-            <LoadMoreBtn onClick={loadmoreHandler}>더보기</LoadMoreBtn>
+              <LoadMoreBtn onClick={loadmoreHandler}>더보기</LoadMoreBtn>
             }
         </Inner>
     </ChamyeoWrap>

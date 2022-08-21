@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import axios from 'axios';
 
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import styled from "styled-components";
 
 import Dreamees from '../Dreamee/Sections/Dreamees';
@@ -17,7 +17,9 @@ function LandingPage() {
             <Inner>
                 <h1>당신이 무엇을 좋아하고 잘하는지 같이 알아가요<br />
                 </h1>
-                <button>참여하기</button>
+                <Link to={{pathname: `/project/all`}}>
+                    <Participatebutton>참여하기</Participatebutton>
+                </Link>
             </Inner>
         </Visual>
         <ProjectLists noButton Limit="4" AllLanding/>
@@ -56,4 +58,11 @@ const Inner = styled.div`
         background-color: black;
         color: white;
     }
+`
+const Participatebutton = styled.button`
+    color: #333;
+    &:hover{
+        color: white;
+    }
+
 `

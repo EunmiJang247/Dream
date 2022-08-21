@@ -13,7 +13,7 @@ router.post('/applied',(req,res)=>{
                 if(info.length !== 0){
                     result = true
                 }
-                res.status(200).json({success:true, liked : result})
+                res.status(200).json({success:true, applied : result, info: info})
             })
 })
 
@@ -27,6 +27,7 @@ router.post('/removefromApply',(req,res)=>{
 
 router.post('/addToApply',(req,res)=>{
     const apply = new Apply(req.body)
+    console.log(req.body)
     apply.save((err,doc)=>{
         if(err){return res.status(400).send(err)}
         return res.status(200).json({success:true})

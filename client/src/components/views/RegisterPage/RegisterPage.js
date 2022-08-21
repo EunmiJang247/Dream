@@ -34,7 +34,7 @@ function RegisterPage(props) {
 
   const onPasswordHandler = (event) => {
     setPassword(event.target.value);
-    var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/
+    var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{5,15}$/
     //  8 ~ 10자 영문, 숫자 조합
     if(regExp.test(event.target.value)){SetPasswordvalid(true)}
     else{SetPasswordvalid(false)}
@@ -54,7 +54,7 @@ function RegisterPage(props) {
       alert('닉네임을을 입력하세요')
       return
     }else if(!Passwordvalid){
-      alert('8 ~ 10자 영문, 숫자 조합 비밀번호를 입력하세요')
+      alert('5 ~ 15자 영문, 숫자 조합 비밀번호를 입력하세요')
       return
     }else if(ConfirmPassword !== Password){
       alert('비밀번호와 비밀번호 확인이 다릅니다')
@@ -88,9 +88,9 @@ function RegisterPage(props) {
             {emailvalid ? "" : <span style={{fontSize:'8px', marginLeft: '8px'}}>이메일 형식으로 작성해주세요</span>}
           <LoginInput type="text" placeholder='닉네임을 입력하세요' onChange={onNameHandler}/>
           <LoginInput type="password" placeholder='비밀번호를 입력하세요' onChange={onPasswordHandler}/>
-            {Passwordvalid ? "" : <span style={{fontSize:'8px', marginLeft: '8px'}}>8 ~ 10자 영문, 숫자 조합으로 작성해주세요</span>}
+            {Passwordvalid ? "" : <span style={{fontSize:'8px', marginLeft: '8px'}}>5 ~ 15자 영문, 숫자 조합으로 작성해주세요</span>}
           <LoginInput type="password" placeholder='비밀번호를 한번 더 입력하세요' onChange={onConfirmPassword}/>
-            {ConfirmPassword && ConfirmPassword === Password? <span style={{fontSize:'8px', marginLeft: '8px'}}>일치합니다</span> : ""}
+            {ConfirmPassword && ConfirmPassword === Password? <span style={{fontSize:'8px', marginLeft: '8px', color:'blue'}}>일치합니다</span> : ""}
           <SubmitInput type="submit" value="회원가입하기" />
           <Link to={{pathname: `/login`}}><Hellowp>로그인</Hellowp></Link>
         </LoginForm>

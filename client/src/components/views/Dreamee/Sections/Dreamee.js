@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 function Dreamee(props) {
     const postid = props.dreamee._id;
-    console.log('tech는',props.dreamee.tech)
     const dreammtech = ""
   return (
     <Dongryowrapli>
@@ -16,9 +15,12 @@ function Dreamee(props) {
             <strong>{props.dreamee.nickname}</strong>
             <p>{props.dreamee.position}</p>            
             
-            {props.dreamee.tech && props.dreamee.tech.map((tech)=>(
-               <p>{tech},</p>
-            ))}
+            <div style={{display:'flex', flexWrap:'wrap',justifyContent:'center', 
+            }}>
+                {props.dreamee.tech && props.dreamee.tech.map((tech)=>(
+                <SkillButton danger><p>{tech}</p></SkillButton>
+                ))}
+            </div>
 
             </Link>
         </DongryowrapliDiv>
@@ -85,3 +87,19 @@ const DongryowrapliDiv = styled.div`
         }
     }
 `
+
+const SkillButton = styled.button`
+    margin: 2px 2px;
+    border-radius: 30px;
+    border: none;
+    background: rgb(232,52,78);
+    cursor: pointer;
+
+    p{
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 0;
+        padding: 5px 10px;
+    }
+`    
