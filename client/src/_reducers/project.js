@@ -36,19 +36,19 @@ let projectinitialState = {
             question:"회의주기는?",
             answer:[
                 {
-                    text:"온라인/매주",
+                    text:"온라인,매주",
                     option: 1
                 },
                 {
-                    text:"오프라인/매주",
+                    text:"오프라인,매주",
                     option: 2
                 },
                 {
-                    text:"온.오프라인혼합/매주",
+                    text:"온.오프라인혼합,매주",
                     option: 3
                 },
                 {
-                    text:"온.오프라인혼합/격주",
+                    text:"온.오프라인혼합,격주",
                     option: 4
                 },
                 {

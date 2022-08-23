@@ -1,4 +1,4 @@
-import { Input } from 'antd';
+import { Calendar, DatePicker, Input } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
@@ -21,6 +21,7 @@ function Result(props) {
     const[dreameeInfo, setDreameeInfo] = useState([])
     const[kakaoaddress, setKakaoaddress] = useState("")
     const[longDesc, setLongDesc] = useState("")
+    const[duedate, setDuedate] = useState("")
 
     useEffect(()=>{
         setPurpose(selectedanswer[0].answer);
@@ -31,36 +32,39 @@ function Result(props) {
     },[purpose, servicecate,meetingcycle,mentoring])
 
     const body = {
-            writer: props.user._id,
-            purpose: purpose,
-            meetingcycle: meetingcycle,
-            projectdesc:shortDesc,
-            projectcontent:longDesc,
-            servicecate:servicecate,
+            dreameeInfo:dreameeInfo,
             kakaoaddress:kakaoaddress,
-            mentoring:mentoring,    
+            meetingcycle: meetingcycle,
+            mentoring:mentoring,
+            projectcontent:longDesc,
+            projectdesc:shortDesc,
+            purpose: purpose,
+            servicecate:servicecate,
             teamname:teamname,        
-            dreameeInfo:dreameeInfo
+            writer: props.user._id,
+            duedate:duedate,
+            views:0,
         }
 
     const onClickHandler = () => {
-      if(teamname === ""){
-        alert('팀이름을 작성해주세요')
-        return
-      }else if(shortDesc ===""){
-        alert('프로젝트 한단어 설명을 작성해주세요')
-        return
-      }else if(dreameeInfo=[]){
-        alert('구인목록을 작성해주세요')
-        return
-      }else if(kakaoaddress === ""){
-        alert('오픈카톡방 주소를 입력해주세요')
-        return
-      }else if(longDesc === ""){
-        alert('드림프로젝트 상세설명을 입력해주세요')
-        return
-      }
+      // if(teamname === ""){
+      //   alert('팀이름을 작성해주세요')
+      //   return
+      // }else if(shortDesc ===""){
+      //   alert('프로젝트 한단어 설명을 작성해주세요')
+      //   return
+      // }else if(dreameeInfo.length === 0){
+      //   alert('구인목록을 작성해주세요')
+      //   return
+      // }else if(kakaoaddress === ""){
+      //   alert('오픈카톡방 주소를 입력해주세요')
+      //   return
+      // }else if(longDesc === ""){
+      //   alert('드림프로젝트 상세설명을 입력해주세요')
+      //   return
+      // }
 
+      console.log(body)
         axios.post(`/api/project/post`, body)
         .then(response => {
             if(response.data.success){
@@ -72,26 +76,23 @@ function Result(props) {
           }) 
     }
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        // console.log('Change:', e.target.value);
-        setShortDesc(e.target.value)
+    const onChange = (date, dateString) => {
+      setDuedate(dateString);
     };
 
+    console.log('드림인포는',dreameeInfo)
   return (
     <>
     <Resultdiv>
-        <ResultHead>Tell me more detail <br/>about your dream project</ResultHead>
+        <ResultHead>Tell me more detail </ResultHead>
         <span style={{marginLeft:'10px', fontWeight: 'bold'}}>팀이름</span>
         <Input style={{ display:'block', marginBottom:'10px'}} size="default" placeholder="" onChange={(e)=>setTeamname(e.target.value)}
         />
 
         <span style={{marginLeft:'10px', fontWeight: 'bold'}}>드림프로젝트 단어로 설명</span>
-        <Input style={{ marginBottom:'10px'}} showCount maxLength={15} onChange={onChange} 
-        />
+        <Input style={{ marginBottom:'10px'}} showCount maxLength={20} onChange={(e)=>setShortDesc(e.target.value)} />
 
         <Peopleneed setDreameeInfo={setDreameeInfo}/>
-        {/* <PeopleBoard />
-        <PeopleItem /> */}
 
         <span style={{marginLeft:'10px', fontWeight: 'bold'}}>오픈카톡방 주소</span>
         <Input style={{display:'block', marginBottom:'10px'}} size="default" placeholder="" 
@@ -101,6 +102,8 @@ function Result(props) {
         <span style={{marginLeft:'10px', fontWeight: 'bold'}}>드림프로젝트 상세 설명</span>
         <TextArea rows={6} onChange={(e)=>setLongDesc(e.target.value)}/>
         
+        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>Due date</span><br />
+        <DatePicker onChange={onChange} />
 
         <SubmitButton onClick={onClickHandler}>최종 제출하기</SubmitButton>
     </Resultdiv>
@@ -111,7 +114,7 @@ function Result(props) {
 export default Result;
 const Resultdiv = styled.div`
     width: 600px;
-    margin: 80px auto;
+    margin: 40px auto;
 `
 const ResultHead = styled.h1`
     font-size: 50px;

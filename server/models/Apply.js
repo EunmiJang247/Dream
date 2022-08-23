@@ -13,6 +13,9 @@ const applySchema = mongoose.Schema({
     Acceptornot: {
         type: Boolean,
     },
+    SelectedApplyPosition : {
+        type: String,
+    }
 
 },{timestamps: true})
 

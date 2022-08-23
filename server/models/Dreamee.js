@@ -23,7 +23,13 @@ const dreameeSchema = mongoose.Schema({
     },
     kakao : {
         type: String,
-    }
+    },
+    Images : {
+        type: String,
+    },
+    views : {
+        type: Number,
+    },
 })
 
 const Dreamee = mongoose.model('Dreamee', dreameeSchema)

@@ -1,12 +1,29 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { Modal, Select } from 'antd'
+const { Option } = Select;
 
 function Apply(props) {
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const user = useSelector(state => state.user)
     const [Applied, setApplied] = useState(false)
-    const [ApplyPassResult, setApplyPassResult] = useState("미수락됨")
+    const [ApplyPassResult, setApplyPassResult] = useState("미수락됨");
+    const [SelectedApplyPosition, setSelectedApplyPosition] = useState("")
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+    
+      const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+  
+      const handleChange = (value) => {
+        // console.log(`selected ${value}`);
+        setSelectedApplyPosition(value)
+    };
 
     let variables = {
         userFrom : user.userData._id,
@@ -16,19 +33,19 @@ function Apply(props) {
 
     useEffect(()=>{
         axios.post('/api/apply/applied', variables)
-            .then(response => {
-                if(response.data.success){
-                    if(response.data.applied){//지원한 프로젝트임
-                        setApplied(response.data.applied) 
-                        if(response.data.info[0].Acceptornot){
-                            setApplyPassResult("수락됨")
-                        }else{
-                            setApplyPassResult("미수락됨")
-                        }
+        .then(response => {
+            if(response.data.success){
+                if(response.data.applied){//지원한 프로젝트임
+                    setApplied(response.data.applied) 
+                    if(response.data.info[0].Acceptornot){
+                        setApplyPassResult("수락됨")
+                    }else{
+                        setApplyPassResult("미수락됨")
                     }
-                }else{
-                    alert('정보 가져오는데 실패')
                 }
+            }else{
+                alert('정보 가져오는데 실패')
+            }
         })
     },[])
 
@@ -44,6 +61,12 @@ function Apply(props) {
                 })        
     
         }else{
+            let variables = {
+                userFrom : user.userData._id,
+                projectId : props.projectId,
+                Acceptornot : false,
+                SelectedApplyPosition:SelectedApplyPosition,
+            }
             axios.post('/api/apply/addToApply',variables)
                 .then(response => {
                     if(response.data.success){
@@ -53,16 +76,40 @@ function Apply(props) {
                     }
                 })    
         }
+        setIsModalVisible(false);
     }
 
+    const positionsArray = []
+    {props.positions && props.positions.map((position)=>{
+      positionsArray.push(position.position)
+    })}
 
   return (
+    <>
     <div>
         {Applied
         ?<Applybutton onClick={onClickApply}>지원완료<div style={{fontSize:'8px', color:'white'}}>({ApplyPassResult})</div></Applybutton>
-        :<Applybutton onClick={onClickApply}>지원하기</Applybutton>
+        :
+        <Applybutton 
+            onClick={showModal}
+        >
+            지원하기
+        </Applybutton>
         }
     </div>
+    <Modal 
+          title="Basic Modal" visible={isModalVisible} onOk={onClickApply} onCancel={handleCancel}>
+        <Select
+          defaultValue=""
+          onChange={handleChange}
+          style={{width:'100%'}}
+        >
+          {positionsArray.map((position, idx)=>(
+            <Option value={position} key={idx}>{position}</Option>
+          ))}
+        </Select>
+    </Modal>
+    </>
   )
 }
 

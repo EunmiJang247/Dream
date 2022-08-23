@@ -4,7 +4,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import ApplyModal from "./ApplyModal";
+import ApplyModal from "./SeeApplierModal";
+import Like from "./Like";
+import dayjs from 'dayjs';
+import SeeApplierModal from "./SeeApplierModal";
 
 
 function ProjectList(props) {
@@ -12,7 +15,6 @@ function ProjectList(props) {
 
     const [Applied, setApplied] = useState(false)
     const [ApplyPassResult, setApplyPassResult] = useState("미수락됨")
-
 
     useEffect(()=>{
         if(user){
@@ -33,48 +35,86 @@ function ProjectList(props) {
             }) 
         }
     },[user])
+    
+    var now = dayjs();
+    const remaindays = dayjs(props.project.duedate).diff(dayjs(now.format()),"days")
 
   return (
     <>
     {props.MyPostProject && (
         //마이페이지에서 접근한 경우 
-    <List_body>
-        <div style={{width:'20%'}}>{props.project.teamname}</div>
+    <ListBody>
+        <div style={{width:'20%'}}><ProjectPleft>{props.project.teamname}</ProjectPleft></div>
         <div style={{width:'45%'}}>
             <Link  to={{pathname: `/project/detail/${props.project._id}`}}>
-            {props.project.projectdesc}
+            <ProjectPleft>[{props.project.servicecate}] {props.project.projectdesc}</ProjectPleft>
             </Link>
+            <ProjectSubdesc>
+            {props.project.dreameeInfo.map((dreamee)=>(
+                <>
+                   {dreamee.position} {dreamee.Number}명 /
+                </>
+            ))
+            }
+            </ProjectSubdesc>
         </div>
-        <div style={{width:'15%'}}>{props.project.position}</div>
-        <div style={{width:'10%'}}>{props.project.meetingcycle}</div>
+        <div style={{width:'15%'}}>
+            {/* <ProjectCenter style={{width:'inherit'}}> */}
+            {props.project.dreameeInfo.map((dreamee)=>{
+                    return dreamee.skill.map((skill)=>(
+                        <Span>{skill} /</Span>
+                    ))
+                })
+            }
+            {/* </ProjectCenter> */}
+        </div>
+        <div style={{width:'10%'}}><ProjectCenter>{props.project.meetingcycle}</ProjectCenter></div>
         <div style={{width:'10%'}}>
-            
-            <ApplyModal />
-
+            <SeeApplierModal projectid={props.project._id}/>
+            {/* 지원자선택하는 부분 */}
         </div>
-    </List_body>
+    </ListBody>
     )}
     {!props.MyPostProject && (
-        <List_body>
-        <div style={{width:'20%'}}>{props.project.teamname}</div>
+        //마이페이지 외 경로로 접근한 경우
+    <ListBody>
+        <div style={{width:'20%'}}><ProjectPleft>{props.project.teamname}</ProjectPleft></div>
         <div style={{width:'45%'}}>
             <Link  to={{pathname: `/project/detail/${props.project._id}`}}>
-            {props.project.projectdesc}
+            <ProjectPleft>[{props.project.servicecate}] {props.project.projectdesc}</ProjectPleft>
             </Link>
+            <ProjectSubdesc>
+            {props.project.dreameeInfo.map((dreamee)=>(
+                <>
+                   {dreamee.position} {dreamee.Number}명 /
+                </>
+            ))
+            }
+            </ProjectSubdesc>
         </div>
-        <div style={{width:'15%'}}>{props.project.position}</div>
-        <div style={{width:'10%'}}>{props.project.meetingcycle}</div>
+        
+        <div style={{width:'15%'}}>
+            {/* <ProjectCenter style={{width:'inherit'}}> */}
+            {props.project.dreameeInfo.map((dreamee)=>{
+                    return dreamee.skill.map((skill)=>(
+                        <Span>{skill} /</Span>
+                    ))
+                })
+            }
+            {/* </ProjectCenter> */}
+        </div>
+        <div style={{width:'10%'}}><ProjectCenter>{props.project.meetingcycle}</ProjectCenter></div>
         <div style={{width:'10%'}}>
-            <p>{Applied
+            <RegiDueP>{Applied
             ?<Link  to={{pathname: `/project/detail/${props.project._id}`}}>
-                <ApplyButton>지원완료<span style={{fontSize:'2px', color:'red'}}>({ApplyPassResult})</span></ApplyButton>
+                <ApplyButton><p>지원완료</p><span>({ApplyPassResult})</span></ApplyButton>
              </Link>
-            :<Link  to={{pathname: `/project/detail/${props.project._id}`}}><ApplyButton>자세히보기</ApplyButton></Link>}
-            </p>
-            <p>{props.project.duedate}</p>
-            <span>{props.project.regidate}일전 등록</span>
+            :<Link  to={{pathname: `/project/detail/${props.project._id}`}}><ApplyButton><p>자세히보기</p></ApplyButton></Link>}
+            </RegiDueP>
+            <RegiDueP>~{dayjs(props.project.duedate).format("YYYY-MM-DD")}</RegiDueP>
+            <RegiDueP>{remaindays}일 남음</RegiDueP>
         </div>
-    </List_body>
+    </ListBody>
     )}
     </>
   )
@@ -82,55 +122,79 @@ function ProjectList(props) {
 
 export default ProjectList
 
-const List_body = styled.div`
+const ListBody = styled.div`
     border-bottom: 1px solid #ebebeb;
     display: flex;
     transition: .2s;
+    
     & a {
-        color: #555;
+        color: #333;
     }
     & div {
-        /* width: 220px; */
-        text-align: center;
+        padding: 12px 0 12px;
         color: #333;
-        padding: 8px 0 5px;
-        display: flex;
-        justify-content:center;
-        align-items: center;
-        flex-direction: column;
-        color: #555;
-    }
-    & p:first-child {
-        color: #777;
-        font-size: 10px;
-        padding: 2px 5px;
-    }
-    & p {
-        color: #777;
-        font-size: 12px;
-        margin-bottom: 0;
+
     }
     & span {
         color: #777;
         font-size: 12px;
     }
-    & p:first-child {
-        display: block;
-        margin:0 auto ;
-        border: 1px solid #ff5656;
-        color: #dc3434;
-    }
     &:hover{
         background-color: #FAFAFA ;
         & a {
-            color: #555;
             text-decoration: underline;
         }
     }
 `
 const ApplyButton = styled.button`
-    width: 65px;
+    width: 79px;
     border: none;
     background-color: transparent;
     cursor: pointer;
+    p {
+        display: block;
+        margin:0 auto ;
+        border: 1px solid #ff5656;
+        color: #dc3434;
+        font-size: 12px;
+    }
+    span{
+        font-size: 7px;
+    }
+`
+const ProjectPleft = styled.p`
+    text-align: left;
+    padding-left: 20px;
+
+`
+const ProjectCenter = styled.p`
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+    margin-top: 12px;
+`
+const ProjectSubdesc = styled.p`
+    padding-left: 20px;
+    color: #777;
+    font-size: 12px;
+    line-height: 14px;
+`
+const RegiDueP = styled.p`
+    margin: 0;
+    text-align:center ;
+    color: #777;
+    font-size: 8px;
+`
+const SkillButton = styled.button`
+    margin-right: 10px;
+    color:white;
+    margin: 2px 2px;
+    border-radius: 30px;
+    border: none;
+    background: rgb(232,52,78);
+    cursor: pointer;
+`
+const Span = styled.span`
+white-space: normal;
+
 `

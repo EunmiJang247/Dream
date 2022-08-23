@@ -5,8 +5,10 @@ import axios from 'axios';
 import Comment from './Sections/Comment';
 import Like from './Sections/Like';
 import Apply from './Sections/Apply';
+import dayjs from 'dayjs';
 
 function ProjectDetail(props) {
+
     const {id} = useParams();
     const variable = {projectId : id}
     
@@ -20,7 +22,6 @@ function ProjectDetail(props) {
         })
         .catch(err => alert(err))
 
-
       axios.post('/api/comment/getComments',variable)  
         .then(response =>{
           setComments(response.data.comments)
@@ -31,7 +32,6 @@ function ProjectDetail(props) {
     const refreshFunction = (newComment) => {
       setComments(Comments.concat(newComment))
     }
-
   return (
     <>
     <Main>
@@ -41,15 +41,14 @@ function ProjectDetail(props) {
           <Like projectId={id} userid={props.user.userData._id}/>
         </Title>
         <Summary>
-          <span>{Project.servicecate}/</span>
-          <span>{Project.position}/</span>
-          <span>{Project.regidate}</span>
+          <span>{Project.servicecate}제작/</span>
+          <span>{Project.meetingcycle}등록/</span>
+          <span>~{dayjs(Project.duedate).format("YYYY-MM-DD")}</span>
         </Summary>
       </Head>
       <Tab>
-        <span>😉</span>조회<span>23</span>
-        <span>😉</span>찜<span>23</span>
-        <span>😉</span>댓글<span>23</span>
+        <span>😉</span>조회<span>{Project.views}</span>
+        <span>😉</span>댓글<span>{Comments.length}</span>
       </Tab>
       <Recruit>
         <RecruitTitle>
@@ -62,11 +61,27 @@ function ProjectDetail(props) {
         <RecruitTitle>
           모집 Position
         </RecruitTitle>
+        <div>
+          {Project.dreameeInfo && Project.dreameeInfo.map((dreamee)=>{
+            return (
+            <>
+              <div style={{marginLeft:'5px'}}>• {dreamee.position} {dreamee.Number}명</div>
+              {dreamee.skill.map((skill)=>(
+                <span style={{marginLeft:'10px'}}>{skill},</span>
+              
+              ))}
+            </>
+            )      
+            })
+          }
+        </div>
       </Recruit>
-      <Apply projectId={id} />
-    </Main>
+      <Apply projectId={id} positions={Project.dreameeInfo}/>
     
+    </Main>
+
     <Comment refreshFunction={refreshFunction} commentLists={Comments} />
+    
     </>
   )
 }

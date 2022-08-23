@@ -9,8 +9,6 @@ import ProjectLists from '../ProjectPage/Sections/ProjectLists';
 
 
 function LandingPage() {
-  
-
   return (
     <>
         <Visual>
@@ -18,18 +16,17 @@ function LandingPage() {
                 <h1>당신이 무엇을 좋아하고 잘하는지 같이 알아가요<br />
                 </h1>
                 <Link to={{pathname: `/project/all`}}>
-                    <Participatebutton>참여하기</Participatebutton>
+                    <button>참여하기</button>
                 </Link>
             </Inner>
         </Visual>
-        <ProjectLists noButton Limit="4" AllLanding/>
+        <ProjectLists LandingPage Limit="4" AllLanding/>
         <Dreamees noButton Limit="8"/>
-        
+        {/* <div style={{height:'50px'}}></div> */}
     </>
   )
 }
-
-export default LandingPage
+export default LandingPage;
 const Visual = styled.div`
     background-image: url('images/dreamtogether_background.jpg');
     width: 100%;
@@ -51,6 +48,7 @@ const Inner = styled.div`
         background-color: transparent;
         transition: .3s ;
         font-size: 16px;
+        color: #333;
         border: 1px solid black;
         cursor: pointer;
     }
@@ -58,11 +56,4 @@ const Inner = styled.div`
         background-color: black;
         color: white;
     }
-`
-const Participatebutton = styled.button`
-    color: #333;
-    &:hover{
-        color: white;
-    }
-
 `

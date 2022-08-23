@@ -79,11 +79,14 @@ function ProjectLists(props) {
     <>  
     <ChamyeoWrap>
         <Inner>
-            <div style={{height:'50px', position:'relative'}}>
+            <div>
                 {!props.MyPostProject && 
                 <>
                 <h5 style={{fontWeight : '600'}}>사이드프로젝트에 참여해볼래요? 😀 </h5>
-                {!props.noButton &&
+                {props.LandingPage &&
+                <Link to = {{pathname:'/project/all'}}><SeeMore>더보기</SeeMore></Link>
+                }
+                {!props.LandingPage &&
                 <Link to={{pathname: `/project/post`}}><Dreambutton>드림프로젝트등록</Dreambutton></Link>
                 }
                 </> 
@@ -92,7 +95,7 @@ function ProjectLists(props) {
             <List_head>
                 <div style={{width:'20%'}}>프로젝트명</div>
                 <div style={{width:'45%'}}>이름</div>
-                <div style={{width:'15%'}}>지원자격</div>
+                <div style={{width:'15%'}}>기술스택</div>
                 <div style={{width:'10%'}}>회의주기</div>
                 {props.MyPostProject&& 
                   <div style={{width:'10%'}}>지원현황</div>
@@ -105,7 +108,7 @@ function ProjectLists(props) {
             {Project.map((result)=>(
               <ProjectList key={result._id} project={result} MyPostProject={props.MyPostProject}/>
             ))}
-            {PostSize >= Limit && !props.noButton && 
+            {PostSize >= Limit && !props.LandingPage && 
               <LoadMoreBtn onClick={loadmoreHandler}>더보기</LoadMoreBtn>
             }
         </Inner>
@@ -117,12 +120,20 @@ function ProjectLists(props) {
 export default ProjectLists
 
 const ChamyeoWrap = styled.div`
-    width: 100%;
-    margin-top: 30px;
+    /* width: 100%; */
+    margin: 30px;
 `
 const Inner = styled.div`
     width: 1100px;
     margin: 0 auto;
+    position: relative;
+`
+const SeeMore = styled.p`
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    text-decoration: underline;
+    cursor: pointer;
 `
 const List_head = styled.div`
     border-top: 1px solid #eaeaea;
@@ -141,8 +152,8 @@ const List_head = styled.div`
 `
 const Dreambutton = styled.button`
     position: absolute;
-    top: 0;
-    right: 20px;
+    top: -20px;
+    right: 0px;
 
     margin: auto;
     border-radius: 5px;
@@ -169,5 +180,4 @@ const LoadMoreBtn = styled.button`
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-
 `

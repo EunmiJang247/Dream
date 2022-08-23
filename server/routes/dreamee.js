@@ -2,6 +2,8 @@ const express = require('express');
 const { Dreamee } = require('../models/Dreamee');
 const { Project } = require('../models/Project');
 const { User } = require('../models/User');
+
+const multer = require('multer');
 const router = express.Router();
 
 
@@ -26,12 +28,12 @@ router.post('/',(req,res)=>{
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
     Dreamee.findOne({
-        _id : req.params.id },
-        ).then((result) => {
+        _id : req.params.id },).then((result) => {
         res.json(result);
     }).catch((err) => {
         res.send(err);
     });
+
 });
 
 //프로젝트등록
@@ -45,7 +47,6 @@ router.post('/post',(req,res)=>{
 
 //userid로 특정드림이 조회
 router.get('/mydreamee/:userid', (req, res, next) => {
-    console.log(req.params.userid)
     Dreamee.findOne({
         userFrom : req.params.userid },
         ).then((result) => {
@@ -55,10 +56,21 @@ router.get('/mydreamee/:userid', (req, res, next) => {
     });
 });
 
+//userid배열로 지원한 특정드림이들 조회
+router.post('/finddreamee', (req, res, next) => {
+    // console.log(req.body)
+    Dreamee.find({
+        'userFrom' : { $in : req.body} },
+        ).then((result) => {
+            // console.log('result:',result)
+        res.json(result);
+    }).catch((err) => {
+        res.send(err);
+    });
+});
+
 //드림이 수정
 router.put('/:dreamid', (req, res, next) => {
-    console.log(req.params.dreamid)
-    console.log(req.body)
     // Dreamee.findOne({_id : req.params.dreamid },
     //     {$set:
     //         {   
@@ -76,5 +88,31 @@ router.put('/:dreamid', (req, res, next) => {
     // });
 });
 
+//이미지 올리는 server part
+//multer가이드 
+let storage = multer.diskStorage({
+    destination: (req,res,cb)=>{
+        cb(null, "uploads/"); //업로드라는 폴더(최상단디렉토리)에 저장하겠다
+    },
+    filename: (req,file,cb) => {
+        cb(null, `${Date.now()}_${file.originalname}`);//파일이름
+    }
+})
+
+const upload = multer({storage:storage}).single("file");
+
+router.post('/image', (req, res, next) => {
+    //여기서 가져온 이미지를 서버에 저장해주겠다! 
+    upload(req,res,err => {
+        if(err){
+            return res.json({success:false,err})
+        }
+        return res.json({success:true, 
+                        filePath:res.req.file.path, 
+                        fileName: res.req.file.filename})
+        //여기서 filePath: uploads폴더의 어디에 파일이있는지.
+    })
+
+});
 
 module.exports = router;

@@ -10,6 +10,7 @@ function ProjectPage() {
         <Header>Let's find the best project!</Header>
     </div>
     <ProjectLists Limit="15" AllLanding/>
+    <div style={{height:'30px'}}></div>
     </>
   )
 }

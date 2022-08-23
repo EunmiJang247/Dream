@@ -41,8 +41,14 @@ const projectSchema = mongoose.Schema({
     },
     dreameeInfo : {
         type: Array
+    },
+    duedate: {
+        type: Date
+    },
+    views: {
+        type: Number
     }
-})
+},{timestamps: true})
 
 const Project = mongoose.model('Project', projectSchema)
 module.exports = { Project }

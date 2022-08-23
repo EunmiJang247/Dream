@@ -54,7 +54,7 @@ function Dreamees(props) {
     const regibutton = () => {      
         axios.get(`/api/dreamee/mydreamee/${userid._id}`)
         .then(response =>{
-          console.log(response.data)
+          // console.log(response.data)
 
             //등록된드림이소개가 있는데 드림이등록을 또 누른 경우
             if(response.data){
@@ -67,9 +67,6 @@ function Dreamees(props) {
         .catch(err => alert(err))
 
     }    
-
-
-    console.log( DreameeLists )
 
   return (
     <>  
