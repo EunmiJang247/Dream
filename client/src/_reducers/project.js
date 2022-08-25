@@ -30,6 +30,10 @@ let projectinitialState = {
                     text:"애플리케이션",
                     option: 2
                 },
+                {
+                    text:"웹/앱 둘다",
+                    option: 3
+                },
             ],
         },
         {

@@ -20,6 +20,7 @@ import Mydreameeintro from './components/views/MyPage/Mydreameeintro';
 import MyPostPage from './components/views/MyPage/MyPostPage';
 import MyApplyProject from './components/views/MyPage/MyApplyProject';
 import MyAccount from './components/views/MyPage/MyAccount';
+import ProjectModifyPage from './components/views/ProjectPage/ProjectModifyPage';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
   const AuthMydreameeintro = Auth(Mydreameeintro,true,false)
   const AuthMyApplyProject = Auth(MyApplyProject,true,false)
   const AuthMyAccount = Auth(MyAccount,true,false)
+  const AuthProjectModifyPage = Auth(ProjectModifyPage,true,false)
 
   return (
     <>
@@ -47,6 +49,7 @@ function App() {
           <Route path='/register' element={<AuthRegister />} />
           <Route path='/project/all' element={<AuthProject />} />
           <Route path='/project/detail/:id' element={<AuthProjectDetail />} />
+          <Route path='/project/modify/:projectid' element={<AuthProjectModifyPage />} />
           <Route path='/project/post' element={<AuthProjectPostPage />} />
           <Route path='/dreamee/all' element={<AuthDreamee />} />
           <Route path='/dreamee/detail/:id' element={<DreameeDetail />} />

@@ -3,21 +3,21 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import PeopleList from './PeopleList';
 
-function Peopleneed({setDreameeInfo}) {
-
+function Peopleneed({setDreameeInfo,dreameeInfo}) {
+    console.log('dreameeInfo',dreameeInfo)
     const [isChecked, setIsChecked] = useState(false)
     const [checkedItems, setCheckedItems] = useState(new Set())
-    
-    const [result, setResult] = useState([]) //기존 데이터 
+
+    const [result, setResult] = useState([]) //기존 데이터 dreameeInfo셋팅이 안됨.. 
     const [skillOptionChange, setskillOptionChange] = useState("프론트앤드개발자")
-    const [Number, setNumber] = useState(0)
     const [details, setDetails] = useState({
         position: '프론트앤드개발자',
         skill: '',
         years: '',
         Number: 0,
+        idx:0,
     })
-    
+
     const skillDataFront = [
         {id: 1, name: "React"},
         {id: 2, name: "Node"},
@@ -75,17 +75,18 @@ function Peopleneed({setDreameeInfo}) {
         {id: 6, name: "5년이상"},
     ] 
 
-    const checkHandler = (event) => {
+    const checkHandler = (event) => { 
+        console.log(event.target.value,event.target.checked)
         setIsChecked(!isChecked);
         checkedItemHandler(event.target.value, event.target.checked)
     }
     const checkedItemHandler = (Id,isChecked) => {
         if(isChecked){
-            // console.log(Id,isChecked)
+            console.log(Id,isChecked)
             checkedItems.add(Id);
             setCheckedItems(checkedItems);
         }else if(!isChecked && checkedItems.has(Id)){
-            // console.log(Id,isChecked)
+            console.log(Id,isChecked)
             checkedItems.delete(Id);
             setCheckedItems(checkedItems);
         }
@@ -108,19 +109,19 @@ function Peopleneed({setDreameeInfo}) {
             checkedItems.delete(front.name);
         })
     }
-    const handleChange = (e) => {
-        console.log()
+    const handleChange = (e) => { //포지션, 연차, 명수에 해당하는 Onchange함수.
         const name = e.target.name;
         const value = e.target.value;
 
-        setDetails((prev) => {
+        setDetails((prev) => { 
             return {...prev, [name]:value}
         })
+
+        //모집포지션에 따라 달라지는 기술스택 구현. 
         if(e.target.value === "프론트앤드개발자"){
             setskillOptionChange("프론트앤드개발자")
             erasePreviousSelection()
         }else if(e.target.value === "백앤드개발자"){
-            // console.log('백앤드')
             setskillOptionChange("백앤드개발자")
             erasePreviousSelection()
         }else if(e.target.value === "디자이너"){
@@ -132,15 +133,37 @@ function Peopleneed({setDreameeInfo}) {
         }
     }
 
-    //제출버튼
+    
+    //인원추가 버튼 클릭 시 작동
     const onSubmitHandler = (event) => {
         event.preventDefault();
+        setDetails((prev)=>{
+            return{...prev, idx: prev.idx+1}
+        })
+        //result는 []빈배열. details는 초기데이터로 position,skill,years,number가포함됨.
         setResult([...result, details])
+    }
+
+    //인원삭제 함수 
+    const onDeleteApplier = (idx) => {
+        //이 idx를 인자로 갖고있는 row를 찾는다. 
+        let row = 0;
+        result.map((re)=>{
+            row++
+            if(re.idx===idx){
+                console.log('row는?',row-1)
+                const eraserow = row-1;
+                result.splice(eraserow,1)
+                setResult([...result])
+            }
+        })
     }
 
     useEffect(()=>{
         setDreameeInfo(result)
     },[result])
+
+    console.log('result배열은',result)
       
   return (
     <>
@@ -154,7 +177,6 @@ function Peopleneed({setDreameeInfo}) {
                 <React.Fragment key={idx}>
                     <input type="radio" name="position" value={row.name}
                     onChange={handleChange} 
-                    // checked={row.name==="프론트앤드개발자"}
                     />
                     <span>{row.name}</span>
                 </React.Fragment>
@@ -207,10 +229,10 @@ function Peopleneed({setDreameeInfo}) {
             <br />
             <span style={{marginLeft:'10px', fontWeight: 'bold'}}>명수</span><br />
                 <Input style={{width:'100px'}} name="Number" onChange={handleChange}/>
-            <SubmitButton type="submit" value="추가하기" onClick={onSubmitHandler}>추가하기</SubmitButton>
+            <SubmitButton type="submit" value="추가하기" onClick={onSubmitHandler}>인원추가</SubmitButton>
         </div>
     </form>
-    <PeopleList result={result} />
+    <PeopleList result={result} onDeleteApplier={onDeleteApplier}/>
     </>
   )
 }

@@ -11,7 +11,9 @@ function Dreamee(props) {
             <Link to={{
             pathname: `/dreamee/detail/${postid}`}}
             >
-            <span><img src="" alt="" /></span>
+            <span><img src={`http://localhost:5000/${props.dreamee.Images}`}  alt="" 
+            style={{width:'100%'}}
+            /></span>
             <strong>{props.dreamee.nickname}</strong>
             <p>{props.dreamee.position}</p>            
             

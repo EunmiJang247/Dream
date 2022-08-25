@@ -29,7 +29,7 @@ function Mydreameeintro() {
   return (
     <>
     <SubMenus />
-    <DreameePostPage mydreamee={mydreamee} />
+    <DreameePostPage mydreamee={mydreamee} userid={userid} />
     </>
   )
 }

@@ -38,7 +38,7 @@ function ProjectList(props) {
     
     var now = dayjs();
     const remaindays = dayjs(props.project.duedate).diff(dayjs(now.format()),"days")
-
+    const projectId = props.project._id;
   return (
     <>
     {props.MyPostProject && (
@@ -72,6 +72,7 @@ function ProjectList(props) {
         <div style={{width:'10%'}}>
             <SeeApplierModal projectid={props.project._id}/>
             {/* 지원자선택하는 부분 */}
+            <Link to={{pathname:`/project/modify/${projectId}`}}><ProjectModifyButton>프로젝트<br />수정하기</ProjectModifyButton></Link>
         </div>
     </ListBody>
     )}
@@ -185,16 +186,20 @@ const RegiDueP = styled.p`
     color: #777;
     font-size: 8px;
 `
-const SkillButton = styled.button`
-    margin-right: 10px;
-    color:white;
-    margin: 2px 2px;
-    border-radius: 30px;
-    border: none;
-    background: rgb(232,52,78);
-    cursor: pointer;
-`
 const Span = styled.span`
-white-space: normal;
+    white-space: normal;
 
+`
+const ProjectModifyButton = styled.button`
+    width: 65px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    display: block;
+    margin: 5px auto 0;
+    border: 1px solid blue;
+    color: blue;
+
+    font-size: 10px;
 `

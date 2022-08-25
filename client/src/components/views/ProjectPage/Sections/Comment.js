@@ -55,6 +55,7 @@ function Comment(props) {
         ))}
 
         {/* Root Comment Form */}
+        {user.userData.isAuth && 
         <form style={{display:'flex'}} 
             >
             <textarea
@@ -66,6 +67,7 @@ function Comment(props) {
             <br />
             <Submitbutton style={{width:'25%', height:'52px'}} onClick={onSubmit}>댓글달기</Submitbutton>
         </form>
+        }
     </CommentDiv>
   )
 }

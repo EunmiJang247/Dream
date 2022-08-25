@@ -4,7 +4,8 @@ import { PlusOutlined } from '@ant-design/icons'
 import axios from 'axios';
 
 function FileUpload(props) {
-    const [Images, setImages] = useState("")
+    console.log('사진은', props.dreameeImages)
+    const [Images, setImages] = useState(props.dreameeImages)
     const dropHandler = (files) => {
         // console.log(files) 파일에 대한 정보가 담겨져있다.
         let formData = new FormData();
@@ -54,9 +55,7 @@ function FileUpload(props) {
         </Dropzone>
 
         {/* 파일오면 이미지가 뜰수있게 조치하는 코드 */}
-        <div style={{display:'flex', width:'300px', height:'240px', 
-        // overflowX:'scroll'
-        }}>
+        <div style={{display:'flex', width:'300px', height:'240px'}}>
                 <div onClick={()=>deleteHandler(Images)} >
                     {Images &&
                         <img style = {{minWidth:'300px', width:'300px', height:'240px'}}

@@ -36,9 +36,10 @@ router.get('/:id', (req, res, next) => {
 
 });
 
-//프로젝트등록
+//드림이 신규등록
 router.post('/post',(req,res)=>{
     const dreamee = new Dreamee(req.body)
+    console.log(dreamee)
     dreamee.save((err)=>{
         if(err){return res.status(400).json({success:false, err})}
         return res.status(200).json({success:true})
@@ -71,21 +72,24 @@ router.post('/finddreamee', (req, res, next) => {
 
 //드림이 수정
 router.put('/:dreamid', (req, res, next) => {
-    // Dreamee.findOne({_id : req.params.dreamid },
-    //     {$set:
-    //         {   
-    //             nickname : req.body.content.servicecate,
-    //             position : req.body.content.projecttitle,
-    //             tech : req.body.content.projectdesc,
-    //             introduce : req.body.content.position,
-    //             portfolio : req.body.content.meetingcycle,
-    //             kakao : req.body.content.duedate,
-    //         },
-    //     }).then((result) => {
-    // res.json(result);
-    // }).catch((err) => {
-    //     res.send(err);
-    // });
+    Dreamee.findOneAndUpdate({_id : req.params.dreamid },
+        {$set:
+            {   
+                nickname : req.body.nickname,
+                position : req.body.position,
+                tech : req.body.tech,
+                introduce : req.body.introduce,
+                portfolio : req.body.portfolio,
+                kakao : req.body.kakao,
+                Images : req.body.Images
+            }
+        },{new:true})
+        .then((result) => {
+        res.json({success:true,result})
+        }).catch((err) => {
+            res.send(err);
+            console.log(err)
+        });
 });
 
 //이미지 올리는 server part

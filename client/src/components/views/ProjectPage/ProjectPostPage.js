@@ -42,8 +42,3 @@ const Main = styled.main`
   text-align: center;
 
 `
-const MainHeader = styled.h1`
-  font-size: 32px;
-  font-weight: 800;
-  margin : 30px 0;
-`

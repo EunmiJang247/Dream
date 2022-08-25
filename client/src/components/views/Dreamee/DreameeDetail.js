@@ -26,7 +26,7 @@ function DreameeDetail() {
           <UserInfoUpper>
             <div style={{display:'flex'}}>
               <Myface>
-                <img src="/images/logo192.png" alt="" />
+                <img src={`http://localhost:5000/${Dreamee.Images}`} alt="Mypicture" />
 
               </Myface>
               <MyIntroduce>
@@ -37,11 +37,6 @@ function DreameeDetail() {
 
             </div>
           </UserInfoUpper>
-          <div>
-            <UserTitle>
-              <UserTitleh1>{Dreamee.introduce}</UserTitleh1>
-            </UserTitle>
-          </div>
           <Badgesdiv>
             <ThreeBadges>
               <FirstBadge>

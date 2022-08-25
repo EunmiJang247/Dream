@@ -3,11 +3,40 @@ import TextArea from 'antd/lib/input/TextArea';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Peopleneed from './Sections/Peopleneed';
+import dayjs from 'dayjs';
 
 function Result(props) {
+  const {projectid} = useParams();
+  // console.log('id눙뇨',projectid)
+  const purposeArray = [
+    {id: 1, name: "커리어와 능력향상을 위한 포트폴리오 제작"},
+    {id: 2, name: "불로소득을 위한 첫걸음, 창업"}
+  ]
+
+  const cateArray = [
+    {id: 1, name: "웹사이트"},
+    {id: 2, name: "애플리케이션"},
+    {id: 3, name: "웹/앱 둘다"}
+  ]
+
+  const meetingArray = [
+    {id: 1, name: "온라인,매주"},
+    {id: 2, name: "오프라인,매주"},
+    {id: 3, name: "온.오프라인혼합,매주"},
+    {id: 4, name: "온.오프라인혼합,격주"},
+    {id: 5, name: "협의 후 조율"},
+  ]
+
+  const metorArray = [
+    {id: 1, name: "멘토링도 고려하고있다"},
+    {id: 2, name: "필요하지 않다"}
+  ]
+
+  console.log(!props.ProjectModifyPage)
+  
     const selectedanswer = useSelector((state)=> state.project.selectedanswer);
     const navigate = useNavigate();
 
@@ -24,11 +53,35 @@ function Result(props) {
     const[duedate, setDuedate] = useState("")
 
     useEffect(()=>{
+      if(!props.ProjectModifyPage){
+        //내가올린프로젝트에서 접근하지 않은 경우
+        console.log('하이')
         setPurpose(selectedanswer[0].answer);
         setServicecate(selectedanswer[1].answer);
         setMeetingcycle(selectedanswer[2].answer);
-        setMentoring(selectedanswer[3].answer)
+        setMentoring(selectedanswer[3].answer);
+      }else if(props.ProjectModifyPage){
+        //내가올린프로젝트에서 접근한 경우
+        //axios에서 프로젝트 정보를 가져온다. 
+        axios.get(`/api/project/${projectid}`)
+        .then(response =>{
+          console.log('response.data',response.data)
+          setPurpose(response.data.purpose)
+          setServicecate(response.data.servicecate)
+          setMeetingcycle(response.data.meetingcycle)
+          setMentoring(response.data.mentoring)
 
+          setDreameeInfo(response.data.dreameeInfo)
+
+          setTeamname(response.data.teamname)
+          setShortDesc(response.data.projectdesc)
+          setKakaoaddress(response.data.kakaoaddress)
+          setLongDesc(response.data.projectcontent)
+          setDuedate(response.data.duedate)
+        })
+        .catch(err => alert(err))
+
+      }
     },[purpose, servicecate,meetingcycle,mentoring])
 
     const body = {
@@ -47,24 +100,6 @@ function Result(props) {
         }
 
     const onClickHandler = () => {
-      // if(teamname === ""){
-      //   alert('팀이름을 작성해주세요')
-      //   return
-      // }else if(shortDesc ===""){
-      //   alert('프로젝트 한단어 설명을 작성해주세요')
-      //   return
-      // }else if(dreameeInfo.length === 0){
-      //   alert('구인목록을 작성해주세요')
-      //   return
-      // }else if(kakaoaddress === ""){
-      //   alert('오픈카톡방 주소를 입력해주세요')
-      //   return
-      // }else if(longDesc === ""){
-      //   alert('드림프로젝트 상세설명을 입력해주세요')
-      //   return
-      // }
-
-      console.log(body)
         axios.post(`/api/project/post`, body)
         .then(response => {
             if(response.data.success){
@@ -79,14 +114,20 @@ function Result(props) {
     const onChange = (date, dateString) => {
       setDuedate(dateString);
     };
+   
+    var datecc = dayjs(duedate).format("YYYY-MM-DD")
+    console.log('데이트바꾼거는',datecc)
 
-    console.log('드림인포는',dreameeInfo)
   return (
     <>
-    <Resultdiv>
+    {!props.ProjectModifyPage 
+    //신규등록하는부분
+    ?
+        <Resultdiv>
         <ResultHead>Tell me more detail </ResultHead>
         <span style={{marginLeft:'10px', fontWeight: 'bold'}}>팀이름</span>
-        <Input style={{ display:'block', marginBottom:'10px'}} size="default" placeholder="" onChange={(e)=>setTeamname(e.target.value)}
+        <Input style={{ display:'block', marginBottom:'10px'}} size="default" placeholder="" 
+        onChange={(e)=>setTeamname(e.target.value)}
         />
 
         <span style={{marginLeft:'10px', fontWeight: 'bold'}}>드림프로젝트 단어로 설명</span>
@@ -105,8 +146,101 @@ function Result(props) {
         <span style={{marginLeft:'10px', fontWeight: 'bold'}}>Due date</span><br />
         <DatePicker onChange={onChange} />
 
-        <SubmitButton onClick={onClickHandler}>최종 제출하기</SubmitButton>
+        {
+          teamname === "" || shortDesc ==="" || dreameeInfo.length === 0 || kakaoaddress === "" || longDesc === "" || duedate === "" 
+          ? <SubmitButtonDisable>등록하기</SubmitButtonDisable>
+          : <SubmitButton onClick={onClickHandler}>등록하기</SubmitButton>
+        }
     </Resultdiv>
+    :
+    //수정하는부분
+    <Resultdiv>
+
+        <ResultHead>Tell me more detail </ResultHead>
+        <span>드림프로젝트 진행 목적은?</span>
+        {purposeArray.map((row)=>(
+          <>
+          <div>
+            <input type="radio" name="purpose" value={row.name} onChange 
+            checked={row.name===purpose}
+            />
+            <span>{row.name}</span>
+          </div>
+          </>
+        ))}
+
+        <span>만들고자하는 서비스의 카테고리?</span>
+        {cateArray.map((row)=>(
+          <>
+          <div>
+            <input type="radio" name="servicecate" value={row.name} onChange 
+            checked={row.name===servicecate}
+            />
+            <span>{row.name}</span>
+          </div>
+          </>
+        ))}
+        
+        
+        <span>회의주기는?</span>
+        {meetingArray.map((row)=>(
+          <>
+          <div>
+            <input type="radio" name="meetingcycle" value={row.name} onChange
+            checked={row.name===meetingcycle}
+            />
+            <span>{row.name}</span>
+          </div>
+          </>
+        ))}
+
+        <span>멘토가 필요하신가요?</span>
+        {metorArray.map((row)=>(
+          <>
+          <div>
+            <input type="radio" name="mentoring" value={row.name} onChange 
+            checked={row.name===mentoring}
+            />
+            <span>{row.name}</span>
+          </div>
+          </>
+        ))}
+        <br />
+        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>팀이름 수정부분</span>
+        <Input style={{ display:'block', marginBottom:'10px'}} size="default" placeholder="" 
+        onChange={(e)=>setTeamname(e.target.value)}
+        value={teamname}
+        />
+
+        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>드림프로젝트 단어로 설명</span>
+        <Input style={{ marginBottom:'10px'}} showCount maxLength={20} 
+        onChange={(e)=>setShortDesc(e.target.value)} 
+        value={shortDesc}
+        />
+
+        <Peopleneed setDreameeInfo={setDreameeInfo} dreameeInfo={dreameeInfo}/>
+
+        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>오픈카톡방 주소</span>
+        <Input style={{display:'block', marginBottom:'10px'}} size="default" placeholder="" 
+        onChange={(e)=>setKakaoaddress(e.target.value)}
+        value={kakaoaddress}
+        />
+
+        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>드림프로젝트 상세 설명</span>
+        <TextArea rows={6} onChange={(e)=>setLongDesc(e.target.value)}
+        value={longDesc}
+        />
+        
+        <span style={{marginLeft:'10px', fontWeight: 'bold'}}>Due date</span><br />
+        <input type="date" id="birthday" name="birthday" value={datecc}/>
+        {
+          teamname === "" || shortDesc ==="" || dreameeInfo.length === 0 || kakaoaddress === "" || longDesc === "" || duedate === "" 
+          ? <SubmitButtonDisable>등록하기</SubmitButtonDisable>
+          : <SubmitButton onClick={onClickHandler}>등록하기</SubmitButton>
+        }
+    </Resultdiv>
+    }
+
     </>
   )
 }
@@ -132,4 +266,16 @@ const SubmitButton = styled.button`
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
+`
+const SubmitButtonDisable = styled.button`
+    width: 150px;
+    display: block;
+    margin: 30px auto;
+    border-radius: 5px;
+    color: #333;
+    padding: 10px 21px;
+    border: none;
+    background: #E2E2E2;
+    font-size: 14px;
+    font-weight: 700;
 `

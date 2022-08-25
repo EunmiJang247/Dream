@@ -76,7 +76,7 @@ function SeeApplierModal({projectid}) {
             <Tabs defaultActiveKey="1" onChange={onChange}>
                 {dreameeInfoArray.map((dreamee)=>
                 (
-                    <TabPane tab={dreamee.position} key={dreamee.position}>  
+                    <TabPane tab={`${dreamee.position} ${dreamee.Number}명`} key={dreamee.position}>  
                         {dreameeDetailArray&& dreameeDetailArray.map((dreamee)=>{
                             if(Tabname === dreamee.position){
                                 return(

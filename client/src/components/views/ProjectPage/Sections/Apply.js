@@ -3,17 +3,30 @@ import axios from 'axios';
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Modal, Select } from 'antd'
+import { useNavigate } from 'react-router-dom';
 const { Option } = Select;
 
 function Apply(props) {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const user = useSelector(state => state.user)
+    const user = useSelector(state => state.user)   
+
     const [Applied, setApplied] = useState(false)
     const [ApplyPassResult, setApplyPassResult] = useState("미수락됨");
     const [SelectedApplyPosition, setSelectedApplyPosition] = useState("")
+    const navigate = useNavigate();
 
     const showModal = () => {
-        setIsModalVisible(true);
+        //등록한 드림이 정보가 있는지 확인을 해야한다. 
+
+            axios.get(`/api/dreamee/mydreamee/${user.userData._id}`)
+            .then(response => {
+                if(response.data){
+                    setIsModalVisible(true);
+                }else{
+                    alert('드림이 등록을 먼저 진행해주세요!')
+                    navigate('/dreamee/post');
+                }
+            })
     };
     
       const handleCancel = () => {

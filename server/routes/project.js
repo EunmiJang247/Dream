@@ -26,8 +26,9 @@ let term = req.body.searchTerm
 
 //특정프로젝트 조회
 router.get('/:id', (req, res, next) => {
+    console.log('네왓어요')
     const id = req.params.id;
-    // console.log(id)
+    console.log(id)
     
     // 조회수 올리는 기능.. 
     // Project.updateOne({ _id : req.params.id }
