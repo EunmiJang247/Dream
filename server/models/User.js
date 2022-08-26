@@ -49,6 +49,7 @@ userSchema.pre('save',function(next){
         bcrypt.genSalt(saltRounds, function(err,salt){
             if(err){ return next(err) }
             bcrypt.hash(user.password, salt, function(err,hash){
+                //user.password는 사용자가 친 비밀번호. 
                 //여기서 hash는 암호화된 번호
                 if(err){return next(err)}
                 user.password = hash
@@ -75,7 +76,8 @@ userSchema.methods.generateToken = function(cb){
 //이제 jsonwebtoken을 이용해 토큰생성하는 코드를 짜겠다.
     var user = this;
     var token = jwt.sign(user._id.toHexString(),'secretToken')
-    user.token = token
+    //userId랑 씨크릿토큰이랑 합쳐져서 토큰을 생성해준다. 
+    user.token = token; 
     user.save(function(err,user){
         if(err){return cb(err)}
         cb(null, user)

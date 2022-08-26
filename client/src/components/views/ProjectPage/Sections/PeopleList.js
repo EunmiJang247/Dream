@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { CloseOutlined } from '@ant-design/icons';
 
 function PeopleList({result, onDeleteApplier}) {
-  console.log('result',result)
+  // console.log('result',result)
   const DeletePosition = (idx) => {
     onDeleteApplier(idx)
   }

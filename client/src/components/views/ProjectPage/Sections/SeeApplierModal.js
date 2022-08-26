@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Tabs,Collapse } from 'antd';
 import axios from 'axios';
 import ApplierAcceptButton from './ApplierAcceptButton';
+import { Link } from 'react-router-dom';
 const { TabPane } = Tabs;
 
 function SeeApplierModal({projectid}) {
@@ -23,8 +24,8 @@ function SeeApplierModal({projectid}) {
             userFromIdArray.push(user.userFrom)
         ))
     }
-    console.log('ApplierArray는',ApplierArray)
-    console.log('userFromIdArray는',userFromIdArray)
+    // console.log('ApplierArray는',ApplierArray)
+    // console.log('userFromIdArray는',userFromIdArray)
     // console.log(userFromIdArray)
 
     const SeeApplier = () => {
@@ -79,14 +80,17 @@ function SeeApplierModal({projectid}) {
                     <TabPane tab={`${dreamee.position} ${dreamee.Number}명`} key={dreamee.position}>  
                         {dreameeDetailArray&& dreameeDetailArray.map((dreamee)=>{
                             if(Tabname === dreamee.position){
+                                console.log(`/dreamee/detail/${dreamee._id}`)
                                 return(
                                     <ApplierAcceptButtonBox>
-                                        <div style={{width:'70%'}}>
-                                            <div>· 닉네임 : {dreamee.nickname}</div>
-                                            <div>· 담당 : {dreamee.position}</div>
-                                            <div>· 자기소개 : {dreamee.introduce}</div>
-                                            <div>· 카카오 오픈채팅방 : {dreamee.kakao}</div>
-                                        </div>
+                                        <Link to={{pathname:`/dreamee/detail/${dreamee._id}`}} >
+                                            <div style={{width:'70%'}}>
+                                                <div>· 닉네임 : <span>{dreamee.nickname}</span></div>
+                                                <div>· 담당 : {dreamee.position}</div>
+                                                <div>· 자기소개 : {dreamee.introduce}</div>
+                                                <div>· 카카오 오픈채팅방 : {dreamee.kakao}</div>
+                                            </div>
+                                        </Link>
                                     <ApplierAcceptButton DreameeUserFrom={dreamee.userFrom} 
                                     projectid={projectid}/>
                                     </ApplierAcceptButtonBox>
@@ -120,4 +124,11 @@ const ApplierAcceptButtonBox = styled.div`
     position: relative;
     padding: 15px;
     cursor: pointer;
+
+    &:hover{
+        span{
+            text-decoration: underline;
+        }
+
+    }
 `

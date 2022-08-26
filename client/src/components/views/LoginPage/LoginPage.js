@@ -43,7 +43,7 @@ function LoginPage(props) {
           window.localStorage.setItem('userId', response.payload.userId);
           navigate('/');
         }else{
-          alert('이메일과 비밀번호를 확인해주세요')
+          alert(response.payload.message)
         }
     })
   }

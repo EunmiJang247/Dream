@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { LOGIN_USER, 
          REGISTER_USER,
-         AUTH_USER } from './types';
+         AUTH_USER, 
+         CHANGEPASSWORD} from './types';
 
 export function loginUser(dataToSubmit){
     
@@ -31,6 +32,18 @@ export function registerUser(dataToSubmit){
         payload : request
         //서버에서 받은 data가 payload이다
     }
+}
+
+
+export function changePasswordUser(dataToSubmit){
+    const request = axios.post('/api/users/changepassword', dataToSubmit)
+    .then(response => response.data)
+
+    return{
+        type : CHANGEPASSWORD,
+        payload : request
+    }
+
 }
 
 export function auth(){

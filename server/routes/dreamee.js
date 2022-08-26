@@ -5,7 +5,8 @@ const { User } = require('../models/User');
 
 const multer = require('multer');
 const router = express.Router();
-
+const sharp = require("sharp");
+const fs = require('fs');
 
 router.post('/',(req,res)=>{
     let limit = req.body.limit ? parseInt(req.body.limit) : 4;
@@ -105,18 +106,41 @@ let storage = multer.diskStorage({
 
 const upload = multer({storage:storage}).single("file");
 
-router.post('/image', (req, res, next) => {
-    //여기서 가져온 이미지를 서버에 저장해주겠다! 
-    upload(req,res,err => {
-        if(err){
-            return res.json({success:false,err})
-        }
-        return res.json({success:true, 
-                        filePath:res.req.file.path, 
-                        fileName: res.req.file.filename})
-        //여기서 filePath: uploads폴더의 어디에 파일이있는지.
-    })
+// router.post('/image', (req, res, next) => {
+//     // 여기서 가져온 이미지를 서버에 저장해주겠다! 
+//     upload(req,res,err => {
+//         if(err){
+//             return res.json({success:false,err})
+//         }
+//         return res.json({success:true, 
+//                         filePath:res.req.file.path, 
+//                         fileName: res.req.file.filename})
+//         //여기서 filePath: uploads폴더의 어디에 파일이있는지.
+//     })
+// });
 
-});
+// 이미지를 업로드하는 라우트
+router.post('/image', upload, (req, res, next)=>{
+    try{
+        // console.log('파일정보',res.req.file)
+
+      sharp(res.req.file.path)	
+          .resize({width:100, height:100})
+          .withMetadata()
+          .toFile(`uploads/resized_${res.req.file.filename}`, (err, info)=>{
+              if(err) throw err               
+              console.log(`info : ${info}`)
+              fs.unlink(`uploads/${res.req.file.filename}`, (err)=>{	
+                if(err) throw err				            
+    
+              })                  
+          })
+    }catch(err){
+        console.log(err)
+    }
+    return res.json({success:true, 
+                    filePath: `uploads/resized_${res.req.file.filename}` , 
+                    fileName: res.req.file.filename})
+  })
 
 module.exports = router;

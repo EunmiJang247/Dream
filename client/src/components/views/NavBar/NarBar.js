@@ -15,9 +15,9 @@ function NavBar({children}) {
     <>
       <header>
         <div className="inner">
-          <a href="/" className="logo">
+          <Link to={{pathname:`/`}} href="/" className="logo">
             <img src="./images/logo.svg" alt="DREAMTOGETHER" />
-          </a>
+          </Link>
           <ul className='main'>
             <li className='item'>
               <div className='itemName'><Link to="/project/all">드림프로젝트</Link></div>
@@ -25,12 +25,12 @@ function NavBar({children}) {
             <li className='item'>
               <div className='itemName'><Link to="/dreamee/all">드림이들</Link></div>
             </li>
-            <li className='item'>
+            {/* <li className='item'>
               <div className='itemName'><Link to="/metoring">멘토링</Link></div>
             </li>
             <li className='item'>
               <div className='itemName'><Link to="/community">커뮤니티</Link></div>
-            </li>
+            </li> */}
             <li className='item'>
               {user.userData &&
               <div className='itemName'><Link to={{pathname: `/mypage/mypostproject/${user.userData._id}`}}>마이페이지</Link></div>

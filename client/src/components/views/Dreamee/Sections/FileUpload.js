@@ -7,6 +7,7 @@ function FileUpload(props) {
     console.log('사진은', props.dreameeImages)
     const [Images, setImages] = useState(props.dreameeImages)
     const dropHandler = (files) => {
+        //사진이 들어오면 작동이 되는 함수이다. 
         // console.log(files) 파일에 대한 정보가 담겨져있다.
         let formData = new FormData();
         const config = {
@@ -19,7 +20,7 @@ function FileUpload(props) {
         axios.post('/api/dreamee/image', formData, config)
             .then(response => {
                 if(response.data.success){
-                    console.log(response.data.filePath)
+                    console.log('패쓰는',response.data.filePath)
                     setImages(response.data.filePath)
                     props.refreshFunction(response.data.filePath)
                 }else{

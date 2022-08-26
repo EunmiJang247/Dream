@@ -1,12 +1,14 @@
 import { Button } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Like from '../ProjectPage/Sections/Like';
 
 function DreameeDetail() {
+    const userid = useSelector((state) => state.user)
     const {id} = useParams();
-
     const [Dreamee, setDreamee] = useState([])
 
     useEffect(()=>{
@@ -17,7 +19,6 @@ function DreameeDetail() {
         })
         .catch(err => alert(err))
     },[])
-
   return (
     <>
     <Userdiv>
@@ -32,38 +33,20 @@ function DreameeDetail() {
               <MyIntroduce>
                 <Myname>{Dreamee.nickname}</Myname>
                 <Myposition>{Dreamee.position}</Myposition>
-
               </MyIntroduce>
-
+              <Like DreameeLike dreameeId={id} 
+              userid={userid.userData._id}
+              />
             </div>
           </UserInfoUpper>
-          <Badgesdiv>
-            <ThreeBadges>
-              <FirstBadge>
-                <FirstImoti>
-                  ❤️
-                </FirstImoti>
-                  2
-              </FirstBadge>
-              <FirstBadge>
-                <FirstImoti>
-                😀
-                </FirstImoti>
-                  2
-              </FirstBadge>
-              <FirstBadge>
-                <FirstImoti>
-                😈
-                </FirstImoti>
-                  2
-              </FirstBadge>
-            </ThreeBadges>
-          </Badgesdiv>
+
         </UserInfo>
         <UserMiddle>
           <UserMiddleHead>기술스택</UserMiddleHead>
-          {Dreamee.tech && Dreamee.tech.map((skill)=>(
-            <SkillButton danger style={{marginRight:'10px'}}>{skill}</SkillButton>
+          {Dreamee.tech && Dreamee.tech.map((skill, idx)=>(
+            <React.Fragment key={idx}>
+            <SkillButton danger style={{marginRight:'10px'}} >{skill}</SkillButton>
+            </React.Fragment>
           ))}
           <UserMiddleHead>포트폴리오 주소</UserMiddleHead>
           <div>{Dreamee.portfolio}</div>
@@ -116,6 +99,10 @@ const Myface = styled.div`
     background-color: #f1f1f1;
     border-radius: 100px;
     overflow: hidden;
+
+    img{
+      width: 100%;
+    }
 
 `
 const MyIntroduce = styled.div`

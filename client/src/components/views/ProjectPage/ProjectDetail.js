@@ -38,11 +38,11 @@ function ProjectDetail(props) {
       <Head>
         <Title>
           <TeamName>{Project.projectdesc}</TeamName>
-          <Like projectId={id} userid={props.user.userData._id}/>
+          <Like projectId={id} userid={props.user.userData._id} ProjectLike/>
         </Title>
         <Summary>
           <span>{Project.servicecate}제작/</span>
-          <span>{Project.meetingcycle}등록/</span>
+          <span>{Project.meetingcycle} 회의/</span>
           <span>~{dayjs(Project.duedate).format("YYYY-MM-DD")}</span>
         </Summary>
       </Head>
@@ -62,15 +62,15 @@ function ProjectDetail(props) {
           모집 Position
         </RecruitTitle>
         <div>
-          {Project.dreameeInfo && Project.dreameeInfo.map((dreamee)=>{
+          {Project.dreameeInfo && Project.dreameeInfo.map((dreamee, index)=>{
             return (
-            <>
+            <React.Fragment key={index}>
               <div style={{marginLeft:'5px'}}>• {dreamee.position} {dreamee.Number}명</div>
               {dreamee.skill.map((skill)=>(
                 <span style={{marginLeft:'10px'}}>{skill},</span>
               
               ))}
-            </>
+            </React.Fragment>
             )      
             })
           }

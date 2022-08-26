@@ -72,7 +72,7 @@ function Dreamees(props) {
     <>  
     <Dongryowrap>
         <Inner>
-         <div style={{height:'50px', position:'relative'}}>
+         <div style={{position:'relative'}}>
           <DreamIntro>동료를 소개합니다!🥰</DreamIntro>
           {!props.noButton &&
             <Dreambutton onClick={regibutton}>드림이로등록</Dreambutton>
@@ -80,12 +80,11 @@ function Dreamees(props) {
         </div>
            <Dongryowrapul> 
             {DreameeLists && DreameeLists.map((DreameeList,index)=>
-              <>
+              <React.Fragment key={index} >
                 <Dreamee
-                key={DreameeList._id} 
                 dreamee={DreameeList} 
                 />
-              </>
+              </React.Fragment>
             )}
             </Dongryowrapul>
             {PostSize >= Limit && !props.noButton && 
@@ -123,9 +122,8 @@ const DreamIntro = styled.div`
 `
 const Dreambutton = styled.button`
     position: absolute;
-    top: 0;
-    right: 20px;
-
+    top: -20px;
+    right: 0px;
     margin: auto;
     border-radius: 5px;
     color: white;

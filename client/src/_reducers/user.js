@@ -1,11 +1,12 @@
 import { LOGIN_USER, 
          REGISTER_USER,
-         AUTH_USER } from "../_action/types";
+         AUTH_USER, 
+         CHANGEPASSWORD} from "../_action/types";
 
-export default function (state = {}, action){
+export default function user(state = {}, action){
     switch(action.type){
         case LOGIN_USER:
-            return {...state, loginSuccess: action.payload}
+            return {...state, loginSuccess: action.payload, message:action.payload.message }
             break;
 
         case REGISTER_USER:
@@ -14,6 +15,10 @@ export default function (state = {}, action){
 
         case AUTH_USER:
             return {...state, userData: action.payload}
+            break;
+
+        case CHANGEPASSWORD:
+            return {...state, changeSuccess: action.payload}
             break;
     
         default : 

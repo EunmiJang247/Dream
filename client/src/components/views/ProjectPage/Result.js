@@ -82,7 +82,7 @@ function Result(props) {
         .catch(err => alert(err))
 
       }
-    },[purpose, servicecate,meetingcycle,mentoring])
+    },[])
 
     const body = {
             dreameeInfo:dreameeInfo,
@@ -111,13 +111,16 @@ function Result(props) {
           }) 
     }
 
+    const onClickModifyHandler = () => {
+      console.log('수정하기 버튼이 눌렸다')
+      console.log(body)
+    }
+
     const onChange = (date, dateString) => {
       setDuedate(dateString);
     };
    
     var datecc = dayjs(duedate).format("YYYY-MM-DD")
-    console.log('데이트바꾼거는',datecc)
-
   return (
     <>
     {!props.ProjectModifyPage 
@@ -161,7 +164,7 @@ function Result(props) {
         {purposeArray.map((row)=>(
           <>
           <div>
-            <input type="radio" name="purpose" value={row.name} onChange 
+            <input type="radio" name="purpose" value={row.name} onChange={(e)=>setPurpose(e.target.value)}
             checked={row.name===purpose}
             />
             <span>{row.name}</span>
@@ -173,7 +176,7 @@ function Result(props) {
         {cateArray.map((row)=>(
           <>
           <div>
-            <input type="radio" name="servicecate" value={row.name} onChange 
+            <input type="radio" name="servicecate" value={row.name} onChange={(e)=>setServicecate(e.target.value)}
             checked={row.name===servicecate}
             />
             <span>{row.name}</span>
@@ -186,7 +189,7 @@ function Result(props) {
         {meetingArray.map((row)=>(
           <>
           <div>
-            <input type="radio" name="meetingcycle" value={row.name} onChange
+            <input type="radio" name="meetingcycle" value={row.name} onChange={(e)=>setMeetingcycle(e.target.value)}
             checked={row.name===meetingcycle}
             />
             <span>{row.name}</span>
@@ -198,7 +201,7 @@ function Result(props) {
         {metorArray.map((row)=>(
           <>
           <div>
-            <input type="radio" name="mentoring" value={row.name} onChange 
+            <input type="radio" name="mentoring" value={row.name} onChange={(e)=>setMentoring(e.target.value)}
             checked={row.name===mentoring}
             />
             <span>{row.name}</span>
@@ -219,7 +222,7 @@ function Result(props) {
         />
 
         <Peopleneed setDreameeInfo={setDreameeInfo} dreameeInfo={dreameeInfo}/>
-
+        
         <span style={{marginLeft:'10px', fontWeight: 'bold'}}>오픈카톡방 주소</span>
         <Input style={{display:'block', marginBottom:'10px'}} size="default" placeholder="" 
         onChange={(e)=>setKakaoaddress(e.target.value)}
@@ -232,11 +235,11 @@ function Result(props) {
         />
         
         <span style={{marginLeft:'10px', fontWeight: 'bold'}}>Due date</span><br />
-        <input type="date" id="birthday" name="birthday" value={datecc}/>
+        <input type="date" id="birthday" name="birthday" value={datecc} onChange={(e)=>setDuedate(e.target.value)}/>
         {
           teamname === "" || shortDesc ==="" || dreameeInfo.length === 0 || kakaoaddress === "" || longDesc === "" || duedate === "" 
-          ? <SubmitButtonDisable>등록하기</SubmitButtonDisable>
-          : <SubmitButton onClick={onClickHandler}>등록하기</SubmitButton>
+          ? <SubmitButtonDisable>수정하기</SubmitButtonDisable>
+          : <SubmitButton onClick={onClickModifyHandler}>수정하기</SubmitButton>
         }
     </Resultdiv>
     }

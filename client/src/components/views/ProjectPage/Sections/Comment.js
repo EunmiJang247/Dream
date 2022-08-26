@@ -46,11 +46,11 @@ function Comment(props) {
 
             (!comment.responseTo && 
                 //responseTo가 없는댓글, 즉 대댓글이 아닌경우에만 출력
-                <>
+                <React.Fragment key={index}>
                 <SingleComment refreshFunction={props.refreshFunction} comment={comment} projectId={id} />
                 <ReplyComment refreshFunction={props.refreshFunction} parentCommentId={comment._id} projectId={id}
                 commentLists={props.commentLists} />
-                </>
+                </React.Fragment>
             )
         ))}
 

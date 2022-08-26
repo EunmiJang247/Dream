@@ -181,12 +181,12 @@ function DreameePostPage({mydreamee,userid}) {
             <br />
             <span style={{marginLeft:'10px', fontWeight: 'bold'}}>기술스택</span>
                 {skillData.map((row,idx)=>
-                    <>
+                    <React.Fragment key={idx}>
                         <input type="checkbox" name="skill" value={row.name} 
                         checked={mydreamee?.tech?.includes(row.name)}
                         />
                         <span style={{paddingLeft:'5px'}}>{row.name}</span>
-                    </>
+                    </React.Fragment>
                 )}
             <br />
 

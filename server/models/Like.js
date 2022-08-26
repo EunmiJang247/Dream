@@ -10,6 +10,10 @@ const likeSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Project'
     },
+    dreameeId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Dreamee'
+    },
 
 },{timestamps: true})
 

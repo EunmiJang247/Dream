@@ -4,37 +4,36 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 function SubMenus() {
-    const user = useSelector(state => state.user)
-
-
+    // const user = useSelector(state => state.user)
+    const user = useSelector(state => state.user.userData)
   return (
     <Inner>
         <section>
             <MyMenus>
                 {user && 
-                <>
+                <>            
                 <MyMenu>
                     <Link style={{color: '#333'}} to={{
-                        pathname: `/mypage/mypostproject/${user.userData._id}`
+                        pathname: `/mypage/mypostproject/${user._id}`
                     }}>내가올린 드림프로젝트</Link>
                 </MyMenu>
                 <MyMenu>
                     <Link style={{color: '#333'}} to={{
-                        pathname: `/mypage/myapplyproject/${user.userData._id}`
+                        pathname: `/mypage/myapplyproject/${user._id}`
                     }}>
                     내가 지원한 드림프로젝트
                     </Link>
                 </MyMenu>
                 <MyMenu>
                     <Link style={{color: '#333'}} to={{
-                        pathname: `/mypage/mydreamee/${user.userData._id}`
+                        pathname: `/mypage/mydreamee/${user._id}`
                     }}>
                     내 드림이소개
                     </Link>
                 </MyMenu>
                 <MyMenu>
                     <Link style={{color: '#333'}} to={{
-                        pathname: `/mypage/myaccount/${user.userData._id}`
+                        pathname: `/mypage/myaccount/${user._id}`
                     }}>
                     내 계정
                     </Link>
@@ -43,7 +42,6 @@ function SubMenus() {
                 }
             </MyMenus>
         </section>
-
     </Inner>
   )
 }

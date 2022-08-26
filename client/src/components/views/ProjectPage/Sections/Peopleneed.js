@@ -4,11 +4,15 @@ import styled from 'styled-components';
 import PeopleList from './PeopleList';
 
 function Peopleneed({setDreameeInfo,dreameeInfo}) {
-    console.log('dreameeInfo',dreameeInfo)
+    console.log('dreameeInfo는', dreameeInfo)
+    useEffect(()=>{
+        setResult(dreameeInfo)
+    },[]);
+
     const [isChecked, setIsChecked] = useState(false)
     const [checkedItems, setCheckedItems] = useState(new Set())
 
-    const [result, setResult] = useState([]) //기존 데이터 dreameeInfo셋팅이 안됨.. 
+    const [result, setResult] = useState() //기존 데이터 dreameeInfo셋팅이 안됨.. 
     const [skillOptionChange, setskillOptionChange] = useState("프론트앤드개발자")
     const [details, setDetails] = useState({
         position: '프론트앤드개발자',
@@ -76,17 +80,16 @@ function Peopleneed({setDreameeInfo,dreameeInfo}) {
     ] 
 
     const checkHandler = (event) => { 
-        console.log(event.target.value,event.target.checked)
         setIsChecked(!isChecked);
         checkedItemHandler(event.target.value, event.target.checked)
     }
     const checkedItemHandler = (Id,isChecked) => {
         if(isChecked){
-            console.log(Id,isChecked)
+            // console.log(Id,isChecked)
             checkedItems.add(Id);
             setCheckedItems(checkedItems);
         }else if(!isChecked && checkedItems.has(Id)){
-            console.log(Id,isChecked)
+            // console.log(Id,isChecked)
             checkedItems.delete(Id);
             setCheckedItems(checkedItems);
         }
@@ -162,8 +165,6 @@ function Peopleneed({setDreameeInfo,dreameeInfo}) {
     useEffect(()=>{
         setDreameeInfo(result)
     },[result])
-
-    console.log('result배열은',result)
       
   return (
     <>

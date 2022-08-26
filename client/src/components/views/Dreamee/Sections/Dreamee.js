@@ -4,23 +4,27 @@ import styled from "styled-components";
 
 function Dreamee(props) {
     const postid = props.dreamee._id;
-    const dreammtech = ""
+
+    // console.log('사진은',props.dreamee.Images)
   return (
     <Dongryowrapli>
         <DongryowrapliDiv>
             <Link to={{
             pathname: `/dreamee/detail/${postid}`}}
             >
-            <span><img src={`http://localhost:5000/${props.dreamee.Images}`}  alt="" 
-            style={{width:'100%'}}
-            /></span>
+            <span style={{overflow:'hidden'}}>
+                <img style={{height:'100%'}}
+                src={`http://localhost:5000/${props.dreamee.Images}`}  alt="" 
+                
+                />
+            </span>
             <strong>{props.dreamee.nickname}</strong>
             <p>{props.dreamee.position}</p>            
             
             <div style={{display:'flex', flexWrap:'wrap',justifyContent:'center', 
             }}>
-                {props.dreamee.tech && props.dreamee.tech.map((tech)=>(
-                <SkillButton danger><p>{tech}</p></SkillButton>
+                {props.dreamee.tech && props.dreamee.tech.map((tech, idx)=>(
+                <SkillButton danger key={idx}><p>{tech}</p></SkillButton>
                 ))}
             </div>
 
@@ -64,7 +68,7 @@ const DongryowrapliDiv = styled.div`
         display: block;
         width : 56px;
         height: 56px;
-        background-color: yellow;
+        overflow: hidden;
     }
     & strong {
         display: block;

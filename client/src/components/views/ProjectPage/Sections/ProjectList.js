@@ -50,10 +50,10 @@ function ProjectList(props) {
             <ProjectPleft>[{props.project.servicecate}] {props.project.projectdesc}</ProjectPleft>
             </Link>
             <ProjectSubdesc>
-            {props.project.dreameeInfo.map((dreamee)=>(
-                <>
+            {props.project.dreameeInfo.map((dreamee, idx)=>(
+                <React.Fragment key={idx}>
                    {dreamee.position} {dreamee.Number}명 /
-                </>
+                </React.Fragment>
             ))
             }
             </ProjectSubdesc>
@@ -61,8 +61,8 @@ function ProjectList(props) {
         <div style={{width:'15%'}}>
             {/* <ProjectCenter style={{width:'inherit'}}> */}
             {props.project.dreameeInfo.map((dreamee)=>{
-                    return dreamee.skill.map((skill)=>(
-                        <Span>{skill} /</Span>
+                    return dreamee.skill.map((skill,idx)=>(
+                        <Span key={idx}>{skill} /</Span>
                     ))
                 })
             }
@@ -85,10 +85,10 @@ function ProjectList(props) {
             <ProjectPleft>[{props.project.servicecate}] {props.project.projectdesc}</ProjectPleft>
             </Link>
             <ProjectSubdesc>
-            {props.project.dreameeInfo.map((dreamee)=>(
-                <>
+            {props.project.dreameeInfo.map((dreamee, idx)=>(
+                <React.Fragment key={idx}>
                    {dreamee.position} {dreamee.Number}명 /
-                </>
+                </React.Fragment>
             ))
             }
             </ProjectSubdesc>
@@ -97,8 +97,8 @@ function ProjectList(props) {
         <div style={{width:'15%'}}>
             {/* <ProjectCenter style={{width:'inherit'}}> */}
             {props.project.dreameeInfo.map((dreamee)=>{
-                    return dreamee.skill.map((skill)=>(
-                        <Span>{skill} /</Span>
+                    return dreamee.skill.map((skill, idx)=>(
+                        <Span key={idx}>{skill} /</Span>
                     ))
                 })
             }
