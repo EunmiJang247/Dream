@@ -1,56 +1,57 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const projectSchema = mongoose.Schema({
-    writer : {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+const projectSchema = mongoose.Schema(
+  {
+    writer: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
     },
-    purpose : {
-        type: String,
+    purpose: {
+      type: String
     },
-    meetingcycle : {
-        type: String,
+    meetingcycle: {
+      type: String
     },
-    projectdesc : {
-        type: String, //짧은설명
+    projectdesc: {
+      type: String //짧은설명
     },
-    projectcontent : {
-        type: String, //긴설명
+    projectcontent: {
+      type: String //긴설명
     },
-    servicecate : {
-        type: String,
+    servicecate: {
+      type: String
     },
     kakaoaddress: {
-        type: String,
+      type: String
     },
-    mentoring : {
-        type : String,
+    mentoring: {
+      type: String
     },
-    teamname : {
-        type : String,
+    teamname: {
+      type: String
     },
-    position : {
-        type: String,
-    },
-    duedate : {
-        type: String,
-    },
-    regidate : {
-        type: String,
-    },
-    dreameeInfo : {
-        type: Array
+    position: {
+      type: String
     },
     duedate: {
-        type: Date
+      type: String
+    },
+    regidate: {
+      type: String
+    },
+    dreameeInfo: {
+      type: Array
+    },
+    duedate: {
+      type: Date
     },
     views: {
-        type: Number
+      type: Number
     }
-},{timestamps: true})
+  },
+  { timestamps: true }
+)
 
 const Project = mongoose.model('Project', projectSchema)
 module.exports = { Project }
-
-

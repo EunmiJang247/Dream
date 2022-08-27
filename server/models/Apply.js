@@ -1,23 +1,25 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const applySchema = mongoose.Schema({
+const applySchema = mongoose.Schema(
+  {
     userFrom: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+      type: Schema.Types.ObjectId,
+      ref: 'User'
     },
     projectId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Project'
+      type: Schema.Types.ObjectId,
+      ref: 'Project'
     },
     Acceptornot: {
-        type: Boolean,
+      type: Boolean
     },
-    SelectedApplyPosition : {
-        type: String,
+    SelectedApplyPosition: {
+      type: String
     }
-
-},{timestamps: true})
+  },
+  { timestamps: true }
+)
 
 const Apply = mongoose.model('Apply', applySchema)
 module.exports = { Apply }

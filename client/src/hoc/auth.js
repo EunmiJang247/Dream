@@ -1,51 +1,44 @@
-import axios from "axios";
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import {useDispatch} from 'react-redux'
-import { useNavigate } from "react-router-dom";
-import {auth} from '../_action/user_action';
+import axios from 'axios'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { auth } from '../_action/user_action'
 
+export default function Auth(SpecificComponent, option, adminRoute = null) {
+  const navigate = useNavigate()
 
-export default function Auth(SpecificComponent, option, adminRoute=null){
-    const navigate = useNavigate();
-    
+  function AuthenticationCheck(props) {
+    let user = useSelector((state) => state.user)
+    const dispatch = useDispatch()
 
-    function AuthenticationCheck(props){
-        let user = useSelector(state => state.user);
-        const dispatch = useDispatch();
+    useEffect(() => {
+      dispatch(auth()).then((response) => {
+        //null 아무나 출입가능
+        //true 로그인한 유저만 출입가능
+        //false 로그인한 유저는 출입 불가능
 
-        useEffect(()=>{
-            dispatch(auth()).then(response => {
-                //null 아무나 출입가능
-                //true 로그인한 유저만 출입가능
-                //false 로그인한 유저는 출입 불가능
+        if (!response.payload.isAuth) {
+          if (option) {
+            navigate('/login')
+          }
+        } else {
+          if (adminRoute && !response.payload.isAdmin) {
+            // 어드민만들어갈수있는라우터고, 어드민유저가 아닐때
+            navigate('/')
+          } else {
+            if (option === false) {
+              //로그인한 유저가 안한유저만 들어가는데 들어갈려고할때
+              navigate('/')
+            }
+          }
+        }
+      })
+    }, [dispatch])
 
-                if(!response.payload.isAuth){
-                    //로그인 안한상태라면,
-                    if(option){
-                        navigate('/login');
-                    }
-
-                }else{
-                    //로그인 한상태라면,
-                    if(adminRoute && !response.payload.isAdmin){
-                        // 어드민만들어갈수있는라우터고, 어드민유저가 아닐때
-                        navigate('/');
-                    }else{
-                        if(option === false){
-                            //로그인한 유저가 안한유저만 들어가는데 들어갈려고할때
-                            navigate('/');
-                        }
-                    }
-                }
-            });
-        },[dispatch])
-
-        return (
-            <SpecificComponent {...props} user={user} />
-        )
-    }
-    return AuthenticationCheck
+    return <SpecificComponent {...props} user={user} />
+  }
+  return AuthenticationCheck
 }
 
 //----------------------------------------kakao
@@ -79,7 +72,7 @@ export default function Auth(SpecificComponent, option, adminRoute=null){
 //               "https://kauth.kakao.com/oauth/token",
 //               payload
 //             );
-            
+
 //             // Kakao Javascript SDK 초기화
 //             window.Kakao.init(REST_API_KEY);
 //             // access token 설정
