@@ -7,7 +7,6 @@ function FileUpload(props) {
   const [Images, setImages] = useState(props.dreameeImages)
   const dropHandler = (files) => {
     //사진이 들어오면 작동이 되는 함수이다.
-    // console.log(files) 파일에 대한 정보가 담겨져있다.
     let formData = new FormData()
     const config = {
       header: { 'content-type': 'multipart/form-data' }
@@ -18,7 +17,6 @@ function FileUpload(props) {
     //formData : 파일정보 갖고있음. config은 어떤파일인지 알려줌.
     axios.post('/api/dreamee/image', formData, config).then((response) => {
       if (response.data.success) {
-        console.log('패쓰는', response.data.filePath)
         setImages(response.data.filePath)
         props.refreshFunction(response.data.filePath)
       } else {
@@ -61,7 +59,7 @@ function FileUpload(props) {
           {Images && (
             <img
               style={{ minWidth: '300px', width: '300px', height: '240px' }}
-              src={`http://localhost:5000/${Images}`}
+              src={`${Images}`}
               alt="이미지"
             />
           )}

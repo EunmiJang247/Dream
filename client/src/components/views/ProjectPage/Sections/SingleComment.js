@@ -30,7 +30,6 @@ function SingleComment(props) {
 
     axios.post('/api/comment/saveComment', variables).then((response) => {
       if (response.data.success) {
-        console.log('대댓글달기성공')
         props.refreshFunction(response.data.result)
         setCommentValue('')
         setOpenReply(false)

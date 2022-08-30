@@ -21,7 +21,6 @@ function Mydreameeintro() {
           )
           navigate('/dreamee/post')
         } else {
-          console.log(response.data)
           setMydreamee(response.data)
         }
       })

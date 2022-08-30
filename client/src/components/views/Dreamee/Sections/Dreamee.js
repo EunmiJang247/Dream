@@ -15,7 +15,7 @@ function Dreamee(props) {
           <span style={{ overflow: 'hidden' }}>
             <img
               style={{ height: '100%' }}
-              src={`http://localhost:5000/${props.dreamee.Images}`}
+              src={`${props.dreamee.Images}`}
               alt=""
             />
           </span>

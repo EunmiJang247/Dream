@@ -29,7 +29,7 @@ function LandingPage() {
 }
 export default LandingPage
 const Visual = styled.div`
-  background-image: url('images/dreamtogether_background.jpg');
+  background-image: url('/images/dreamtogether_background.jpg');
   width: 100%;
   background-position: center;
 `

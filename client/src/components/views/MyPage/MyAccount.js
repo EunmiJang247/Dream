@@ -7,9 +7,8 @@ import { useDispatch } from 'react-redux'
 import { changePasswordUser, loginUser } from '../../../_action/user_action'
 import axios from 'axios'
 
-function MyAccount() {
-  const user = useSelector((state) => state.user.userData)
-  console.log(user.email)
+function MyAccount(props) {
+  // const user = useSelector((state) => state.user.userData)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -25,7 +24,7 @@ function MyAccount() {
 
     //userinfo에 있는 비밀번호와 입력한 비밀번호가 같다면, setChangePasswordWindow를 열어준다.
     let body = {
-      email: user.email,
+      email: props.user.userData.email,
       password: Password
     }
     dispatch(loginUser(body)).then((response) => {
@@ -41,20 +40,24 @@ function MyAccount() {
   const onPasswordChangeSubmitHandler = (event) => {
     event.preventDefault()
     const variables = {
-      email: user.email,
+      email: props.user.userData.email,
       ChangePassword
     }
 
     dispatch(changePasswordUser(variables)).then((response) => {
       if (response.payload.success) {
         alert('비밀번호 변경 성공!)')
-        navigate(`/mypage/myaccount/${user._id}`)
+        navigate(`/mypage/myaccount/${props.user.userData._id}`)
       } else {
         alert(
           '비밀번호 변경이 실패하였습니다. 관리자에게 문의 부탁드립니다(valueyou247@naver.com)'
         )
       }
     })
+  }
+
+  if (!props.user.userData) {
+    return null
   }
 
   return (
@@ -65,7 +68,11 @@ function MyAccount() {
           <LoginH2>내 계정</LoginH2>
           {!ChangePasswordWindow && (
             <LoginForm onSubmit={onSubmitHandler}>
-              <LoginInput type="text" value={user.email} readOnly />
+              <LoginInput
+                type="text"
+                value={props.user.userData.email}
+                readOnly
+              />
               <LoginInput
                 type="password"
                 placeholder="비밀번호를입력하세요"

@@ -5,7 +5,11 @@ import ProjectPostPage from './ProjectPostPage'
 import Result from './Result'
 
 function ProjectModifyPage() {
-  const user = useSelector((state) => state.user.userData)
+  // const user = useSelector((state) => state.user.userData)
+  const user = useSelector((state) => {
+    console.log(state)
+    return state.user.userData
+  })
   const { id } = useParams()
 
   return (

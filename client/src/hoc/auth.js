@@ -79,7 +79,6 @@ export default function Auth(SpecificComponent, option, adminRoute = null) {
 //             window.Kakao.Auth.setAccessToken(res.data.access_token);
 //             navigate('/profile');
 //           } catch (err) {
-//             console.log(err);
 //           }
 //         };
 

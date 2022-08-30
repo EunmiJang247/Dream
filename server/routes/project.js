@@ -29,8 +29,7 @@ router.post('/', (req, res) => {
 router.get('/:id', (req, res, next) => {
   // 조회수 올리는 기능..
   Project.updateOne({ _id: req.params.id }, { $inc: { views: 1 } })
-    .then((result) => {
-      // res.json(result);
+    .then(() => {
       Project.findOne({
         _id: req.params.id
       })
@@ -48,7 +47,6 @@ router.get('/:id', (req, res, next) => {
 
 // 프로젝트등록
 router.post('/post', (req, res) => {
-  // console.log(req.body)
   const project = new Project(req.body)
   project.save((err) => {
     if (err) {
@@ -95,6 +93,35 @@ router.post('/myapply/:id', (req, res, next) => {
         success: true,
         projectInfo
       })
+    })
+})
+
+// 내가 올린프로젝트 수정하기
+router.post('/mypost/modify/:id', (req, res, next) => {
+  Project.findOneAndUpdate(
+    { _id: req.params.id },
+    {
+      $set: {
+        purpose: req.body.purpose,
+        meetingcycle: req.body.meetingcycle,
+        projectdesc: req.body.projectdesc,
+        projectcontent: req.body.projectcontent,
+        servicecate: req.body.servicecate,
+        kakaoaddress: req.body.kakaoaddress,
+        mentoring: req.body.mentoring,
+        teamname: req.body.teamname,
+        position: req.body.position,
+        duedate: req.body.duedate,
+        dreameeInfo: req.body.dreameeInfo
+      }
+    },
+    { new: true }
+  )
+    .then((result) => {
+      res.json({ success: true, result })
+    })
+    .catch((err) => {
+      res.send(err)
     })
 })
 

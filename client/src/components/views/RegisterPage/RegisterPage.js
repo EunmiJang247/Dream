@@ -23,7 +23,6 @@ function RegisterPage(props) {
 
     var regExpemail =
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
-    // console.log('이메일 유효성검사 ::', regExpemail.test(event.target.value))
     if (regExpemail.test(event.target.value)) {
       SetEmailvalid(true)
     } else {

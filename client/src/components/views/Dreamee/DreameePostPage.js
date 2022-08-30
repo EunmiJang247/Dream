@@ -57,18 +57,15 @@ function DreameePostPage({ mydreamee, userid }) {
 
   //skill 체크 부분 - 신규작성의경우
   const checkHandlerNewregi = (event) => {
-    console.log(event.target.value, event.target.checked)
     setIsChecked(!isChecked)
     checkedItemHandlerNewregi(event.target.value, event.target.checked)
   }
   const checkedItemHandlerNewregi = (Id, isChecked) => {
     if (isChecked) {
       checkedItems.add(Id)
-      console.log(checkedItems)
       setCheckedItems(checkedItems)
     } else if (!isChecked && checkedItems.has(Id)) {
       checkedItems.delete(Id)
-      console.log(checkedItems)
       setCheckedItems(checkedItems)
     }
     setTech([...checkedItems])
@@ -92,21 +89,18 @@ function DreameePostPage({ mydreamee, userid }) {
   }
 
   const checkHandler = (event) => {
-    // console.log(event.target.value,event.target.checked)
     setIsChecked(!isChecked)
     checkedItemHandler(event.target.value, event.target.checked)
   }
   const checkedItemHandler = (Id, isChecked) => {
     if (isChecked) {
       checkedItems.push(Id)
-      console.log(checkedItems)
       setCheckedItems(checkedItems)
     } else if (!isChecked && checkedItems.includes(Id)) {
       //Id가 추가된 인덱스 = 배열의 맨 끝. ==> 중간에 누른거 삭제하는 경우 안됨..
       //--> 추가된 Id의 인덱스값을 찾은다음에 그것을 돌려주어야 한다.
       const option = checkedItems.indexOf(Id)
       checkedItems.splice(option, 1)
-      console.log(checkedItems)
       setCheckedItems(checkedItems)
     }
     setTech([...checkedItems])
@@ -146,7 +140,6 @@ function DreameePostPage({ mydreamee, userid }) {
 
   const handleChange = (value) => {
     setPosition(value)
-    console.log(value)
   }
 
   return (
@@ -163,7 +156,7 @@ function DreameePostPage({ mydreamee, userid }) {
           {mydreamee.Images && (
             <img
               style={{ minWidth: '300px', width: '300px', height: '240px' }}
-              src={`http://localhost:5000/${mydreamee.Images}`}
+              src={mydreamee.Images}
               alt="이미지"
             />
           )}

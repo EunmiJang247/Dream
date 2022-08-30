@@ -33,7 +33,6 @@ function Apply(props) {
   }
 
   const handleChange = (value) => {
-    // console.log(`selected ${value}`);
     setSelectedApplyPosition(value)
   }
 

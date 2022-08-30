@@ -34,8 +34,6 @@ function Result(props) {
     { id: 2, name: '필요하지 않다' }
   ]
 
-  console.log(!props.ProjectModifyPage)
-
   const selectedanswer = useSelector((state) => state.project.selectedanswer)
   const navigate = useNavigate()
 
@@ -47,14 +45,18 @@ function Result(props) {
   const [teamname, setTeamname] = useState('')
   const [shortDesc, setShortDesc] = useState('')
   const [dreameeInfo, setDreameeInfo] = useState([])
+  const [dreameeInfoTemp, setDreameeInfoTemp] = useState([])
   const [kakaoaddress, setKakaoaddress] = useState('')
   const [longDesc, setLongDesc] = useState('')
   const [duedate, setDuedate] = useState('')
 
   useEffect(() => {
+    setDreameeInfoTemp(dreameeInfo)
+  }, [dreameeInfo])
+
+  useEffect(() => {
     if (!props.ProjectModifyPage) {
       //내가올린프로젝트에서 접근하지 않은 경우
-      console.log('하이')
       setPurpose(selectedanswer[0].answer)
       setServicecate(selectedanswer[1].answer)
       setMeetingcycle(selectedanswer[2].answer)
@@ -65,7 +67,6 @@ function Result(props) {
       axios
         .get(`/api/project/${projectid}`)
         .then((response) => {
-          console.log('response.data', response.data)
           setPurpose(response.data.purpose)
           setServicecate(response.data.servicecate)
           setMeetingcycle(response.data.meetingcycle)
@@ -110,8 +111,18 @@ function Result(props) {
   }
 
   const onClickModifyHandler = () => {
-    console.log('수정하기 버튼이 눌렸다')
-    console.log(body)
+    setDreameeInfo(dreameeInfoTemp)
+    body.dreameeInfo = dreameeInfoTemp
+    axios
+      .post(`/api/project/mypost/modify/${projectid}`, body)
+      .then((response) => {
+        if (response.data.success) {
+          alert('프로젝트 업로드 성공!')
+          navigate('/')
+        } else {
+          alert('업로드 실패')
+        }
+      })
   }
 
   const onChange = (date, dateString) => {
@@ -119,6 +130,9 @@ function Result(props) {
   }
 
   var datecc = dayjs(duedate).format('YYYY-MM-DD')
+  if (!props.user) {
+    return null
+  }
   return (
     <>
       {!props.ProjectModifyPage ? (
@@ -182,8 +196,8 @@ function Result(props) {
         <Resultdiv>
           <ResultHead>Tell me more detail </ResultHead>
           <span>드림프로젝트 진행 목적은?</span>
-          {purposeArray.map((row) => (
-            <>
+          {purposeArray.map((row, index) => (
+            <React.Fragment key={index}>
               <div>
                 <input
                   type="radio"
@@ -194,12 +208,12 @@ function Result(props) {
                 />
                 <span>{row.name}</span>
               </div>
-            </>
+            </React.Fragment>
           ))}
 
           <span>만들고자하는 서비스의 카테고리?</span>
-          {cateArray.map((row) => (
-            <>
+          {cateArray.map((row, idx) => (
+            <React.Fragment key={idx}>
               <div>
                 <input
                   type="radio"
@@ -210,7 +224,7 @@ function Result(props) {
                 />
                 <span>{row.name}</span>
               </div>
-            </>
+            </React.Fragment>
           ))}
 
           <span>회의주기는?</span>
@@ -270,6 +284,8 @@ function Result(props) {
           <Peopleneed
             setDreameeInfo={setDreameeInfo}
             dreameeInfo={dreameeInfo}
+            setDreameeInfoTemp={setDreameeInfoTemp}
+            dreameeInfoTemp={dreameeInfoTemp}
           />
 
           <span style={{ marginLeft: '10px', fontWeight: 'bold' }}>

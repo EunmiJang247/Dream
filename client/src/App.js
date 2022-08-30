@@ -28,6 +28,7 @@ function App() {
   const AuthRegister = Auth(RegisterPage, false, false)
   const AuthProject = Auth(ProjectPage, null, false)
   const AuthDreamee = Auth(Dreamee, null, false)
+  const AuthDreameeDetail = Auth(DreameeDetail, null, false)
   const AuthProjectDetail = Auth(ProjectDetail, null, false)
   const AuthProjectPostPage = Auth(ProjectPostPage, null, false)
   const AuthDreameePostPage = Auth(DreameePostPage, null, false)
@@ -53,7 +54,7 @@ function App() {
           />
           <Route path="/project/post" element={<AuthProjectPostPage />} />
           <Route path="/dreamee/all" element={<AuthDreamee />} />
-          <Route path="/dreamee/detail/:id" element={<DreameeDetail />} />
+          <Route path="/dreamee/detail/:id" element={<AuthDreameeDetail />} />
           <Route path="/dreamee/post" element={<AuthDreameePostPage />} />
 
           <Route path="/login" element={<AuthLogin />} />

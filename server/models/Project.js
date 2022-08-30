@@ -14,10 +14,10 @@ const projectSchema = mongoose.Schema(
       type: String
     },
     projectdesc: {
-      type: String //짧은설명
+      type: String // 짧은설명
     },
     projectcontent: {
-      type: String //긴설명
+      type: String // 긴설명
     },
     servicecate: {
       type: String
@@ -35,16 +35,13 @@ const projectSchema = mongoose.Schema(
       type: String
     },
     duedate: {
-      type: String
+      type: Date
     },
     regidate: {
       type: String
     },
     dreameeInfo: {
       type: Array
-    },
-    duedate: {
-      type: Date
     },
     views: {
       type: Number

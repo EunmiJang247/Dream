@@ -6,8 +6,7 @@ import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import Like from '../ProjectPage/Sections/Like'
 
-function DreameeDetail() {
-  const userid = useSelector((state) => state.user)
+function DreameeDetail(props) {
   const { id } = useParams()
   const [Dreamee, setDreamee] = useState([])
 
@@ -16,10 +15,14 @@ function DreameeDetail() {
       .get(`/api/dreamee/${id}`)
       .then((response) => {
         setDreamee(response.data)
-        console.log(response.data)
       })
       .catch((err) => alert(err))
   }, [])
+
+  if (!props.user.userData) {
+    return null
+  }
+
   return (
     <>
       <Userdiv>
@@ -28,16 +31,17 @@ function DreameeDetail() {
             <UserInfoUpper>
               <div style={{ display: 'flex' }}>
                 <Myface>
-                  <img
-                    src={`http://localhost:5000/${Dreamee.Images}`}
-                    alt="Mypicture"
-                  />
+                  <img src={`${Dreamee.Images}`} alt="Mypicture" />
                 </Myface>
                 <MyIntroduce>
                   <Myname>{Dreamee.nickname}</Myname>
                   <Myposition>{Dreamee.position}</Myposition>
                 </MyIntroduce>
-                <Like DreameeLike dreameeId={id} userid={userid.userData._id} />
+                <Like
+                  DreameeLike
+                  dreameeId={id}
+                  userid={props.user.userData._id}
+                />
               </div>
             </UserInfoUpper>
           </UserInfo>
@@ -68,7 +72,7 @@ export default DreameeDetail
 const Userdiv = styled.div`
   padding: 40px 0 120px;
   border-top: 1px solid #eaebed;
-  background-color: #f4f5f6;
+  /* background-color: #f4f5f6; */
   display: flex;
   align-items: center;
 `

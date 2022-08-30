@@ -25,7 +25,6 @@ router.post('/changepassword', async (req, res) => {
   const salt = await bcrypt.genSalt(saltRounds)
   const hashedPassword = await bcrypt.hash(req.body.ChangePassword, salt)
 
-  console.log(hashedPassword)
   User.findOneAndUpdate(
     { email: req.body.email },
     { $set: { password: hashedPassword } }
@@ -39,7 +38,7 @@ router.post('/changepassword', async (req, res) => {
 
 // 로그인라우터 만들예정
 router.post('/login', (req, res) => {
-  //요청된 이메일을 데이터베이스에서 있는지 찾는다.
+  // 요청된 이메일을 데이터베이스에서 있는지 찾는다.
   User.findOne({ email: req.body.email }, (err, user) => {
     if (!user) {
       return res.json({
@@ -77,11 +76,11 @@ router.post('/login', (req, res) => {
   })
 })
 
-//auth기능
+// auth기능
 router.get('/auth', auth, (req, res) => {
-  //auth라는 미들웨어를 추가했다. 루트 디렉토리에 middleware에있음
-  //여기까지 미들웨어를 통과해 왔다는 얘기는 Auth : true라는말.
-  //req.user = user; 를 auth에서 절달했다.
+  // auth라는 미들웨어를 추가했다. 루트 디렉토리에 middleware에있음
+  // 여기까지 미들웨어를 통과해 왔다는 얘기는 Auth : true라는말.
+  // req.user = user; 를 auth에서 절달했다.
   res.status(200).json({
     _id: req.user._id,
     isAdmin: req.user.role === 0 ? false : true,

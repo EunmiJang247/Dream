@@ -33,6 +33,11 @@ function ProjectDetail(props) {
   const refreshFunction = (newComment) => {
     setComments(Comments.concat(newComment))
   }
+
+  if (!props.user.userData) {
+    return null
+  }
+
   return (
     <>
       <Main>
@@ -64,8 +69,10 @@ function ProjectDetail(props) {
                     <div style={{ marginLeft: '5px' }}>
                       • {dreamee.position} {dreamee.Number}명
                     </div>
-                    {dreamee.skill.map((skill) => (
-                      <span style={{ marginLeft: '10px' }}>{skill},</span>
+                    {dreamee.skill.map((skill, index) => (
+                      <React.Fragment key={index}>
+                        <span style={{ marginLeft: '10px' }}>{skill},</span>
+                      </React.Fragment>
                     ))}
                   </React.Fragment>
                 )

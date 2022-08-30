@@ -16,7 +16,6 @@ router.post('/dreameelikeNumber', (req, res) => {
     if (err) {
       return res.status(400).send(err)
     }
-    console.log(info)
     res.status(200).json({ success: true, LikeNumber: info.length })
   })
 })
@@ -90,7 +89,6 @@ router.post('/projectaddToLike', (req, res) => {
 })
 
 router.post('/dreameeaddToLike', (req, res) => {
-  console.log(req.body)
   const like = new Like(req.body)
   like.save((err, doc) => {
     if (err) {

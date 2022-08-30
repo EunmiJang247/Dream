@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 function Like(props) {
-  console.log(props.dreameeId)
   const user = useSelector((state) => state.user)
   const [LikeNumber, setLikeNumber] = useState(0)
   const [Liked, setLiked] = useState(false)
@@ -36,10 +35,8 @@ function Like(props) {
         userFrom: user.userData._id,
         dreameeId: props.dreameeId
       }
-      console.log(variables)
       axios.post('/api/like/dreameelikeNumber', variables).then((response) => {
         if (response.data.success) {
-          console.log(response.data)
           setLikeNumber(response.data.LikeNumber)
         } else {
           alert('like정보 가져오는데 실패')

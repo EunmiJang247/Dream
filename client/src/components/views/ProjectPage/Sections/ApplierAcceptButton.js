@@ -4,7 +4,6 @@ import styled from 'styled-components'
 
 function ApplierAcceptButton({ DreameeUserFrom, projectid }) {
   const [buttonBright, setButtonBright] = useState('')
-  // console.log(DreameeUserFrom,projectid)
   const variables = {
     DreameeUserFrom,
     projectid
@@ -26,7 +25,6 @@ function ApplierAcceptButton({ DreameeUserFrom, projectid }) {
     axios
       .post('/api/apply/accept', variables)
       .then((response) => {
-        console.log(response)
         setButtonBright(response)
       })
       .catch((err) => alert(err))
@@ -41,7 +39,6 @@ function ApplierAcceptButton({ DreameeUserFrom, projectid }) {
     axios
       .post('/api/apply/deny', variables)
       .then((response) => {
-        console.log(response)
         setButtonBright(response)
       })
       .catch((err) => alert(err))

@@ -3,16 +3,10 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import PeopleList from './PeopleList'
 
-function Peopleneed({ setDreameeInfo, dreameeInfo }) {
-  console.log('dreameeInfo는', dreameeInfo)
-  useEffect(() => {
-    setResult(dreameeInfo)
-  }, [])
-
+function Peopleneed({ setDreameeInfoTemp, dreameeInfoTemp }) {
   const [isChecked, setIsChecked] = useState(false)
   const [checkedItems, setCheckedItems] = useState(new Set())
 
-  const [result, setResult] = useState() //기존 데이터 dreameeInfo셋팅이 안됨..
   const [skillOptionChange, setskillOptionChange] = useState('프론트앤드개발자')
   const [details, setDetails] = useState({
     position: '프론트앤드개발자',
@@ -85,11 +79,9 @@ function Peopleneed({ setDreameeInfo, dreameeInfo }) {
   }
   const checkedItemHandler = (Id, isChecked) => {
     if (isChecked) {
-      // console.log(Id,isChecked)
       checkedItems.add(Id)
       setCheckedItems(checkedItems)
     } else if (!isChecked && checkedItems.has(Id)) {
-      // console.log(Id,isChecked)
       checkedItems.delete(Id)
       setCheckedItems(checkedItems)
     }
@@ -143,28 +135,26 @@ function Peopleneed({ setDreameeInfo, dreameeInfo }) {
     setDetails((prev) => {
       return { ...prev, idx: prev.idx + 1 }
     })
-    //result는 []빈배열. details는 초기데이터로 position,skill,years,number가포함됨.
-    setResult([...result, details])
+    //dreameeInfoTemp는 []빈배열. details는 초기데이터로 position,skill,years,number가포함됨.
+    setDreameeInfoTemp([...dreameeInfoTemp, details])
   }
 
   //인원삭제 함수
   const onDeleteApplier = (idx) => {
     //이 idx를 인자로 갖고있는 row를 찾는다.
-    let row = 0
-    result.map((re) => {
-      row++
-      if (re.idx === idx) {
-        console.log('row는?', row - 1)
-        const eraserow = row - 1
-        result.splice(eraserow, 1)
-        setResult([...result])
-      }
-    })
+    // let row = 0
+    // dreameeInfoTemp.map((re) => {
+    //   row++
+    //   if (re.idx === idx) {
+    //     const eraserow = row - 1
+    //     dreameeInfoTemp.splice(eraserow, 1)
+    //     setDreameeInfoTemp([...dreameeInfoTemp])
+    //   }
+    // })
+    const newDreameeInfoTemp = [...dreameeInfoTemp]
+    newDreameeInfoTemp.splice(idx, 1)
+    setDreameeInfoTemp(newDreameeInfoTemp)
   }
-
-  useEffect(() => {
-    setDreameeInfo(result)
-  }, [result])
 
   return (
     <>
@@ -274,7 +264,7 @@ function Peopleneed({ setDreameeInfo, dreameeInfo }) {
           </SubmitButton>
         </div>
       </form>
-      <PeopleList result={result} onDeleteApplier={onDeleteApplier} />
+      <PeopleList result={dreameeInfoTemp} onDeleteApplier={onDeleteApplier} />
     </>
   )
 }

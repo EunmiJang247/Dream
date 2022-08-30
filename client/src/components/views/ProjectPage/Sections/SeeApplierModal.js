@@ -33,7 +33,6 @@ function SeeApplierModal({ projectid }) {
         axios
           .post('/api/dreamee/finddreamee', userFromIdArray)
           .then((response) => {
-            console.log('response.data/드리미', response.data)
             setdreameeDetailArray(response.data)
           })
           .catch((err) => alert(err))
@@ -44,7 +43,6 @@ function SeeApplierModal({ projectid }) {
   const onChange = (key) => {
     setTabname(key)
   }
-  console.log(dreameeDetailArray)
   return (
     <>
       <ApplyButton onClick={SeeApplier}>지원자보기</ApplyButton>
@@ -63,11 +61,10 @@ function SeeApplierModal({ projectid }) {
               key={dreamee.position}
             >
               {dreameeDetailArray &&
-                dreameeDetailArray.map((dreamee) => {
+                dreameeDetailArray.map((dreamee, idx) => {
                   if (Tabname === dreamee.position) {
-                    console.log(`/dreamee/detail/${dreamee._id}`)
                     return (
-                      <ApplierAcceptButtonBox>
+                      <ApplierAcceptButtonBox key={idx}>
                         <Link
                           to={{ pathname: `/dreamee/detail/${dreamee._id}` }}
                         >
