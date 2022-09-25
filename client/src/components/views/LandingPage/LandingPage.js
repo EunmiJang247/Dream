@@ -13,7 +13,14 @@ function LandingPage() {
       <Visual>
         <Inner>
           <h1>
-            당신이 무엇을 좋아하고 잘하는지 같이 알아가요
+            저의 포트폴리오 사이트에 방문해주셔서 감사합니다.
+            <br />
+            아래 계정을 사용하시어 검토 부탁드립니다.
+            <br />
+            아이디 : 1111@naver.com
+            <br />
+            비밀번호 : 1111@naver.com
+            <br />
             <br />
           </h1>
           <Link to={{ pathname: `/project/all` }}>
@@ -39,6 +46,7 @@ const Inner = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
+  text-align: center;
   & h1 {
     margin-bottom: 20px;
     font-size: 18px;

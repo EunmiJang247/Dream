@@ -50,17 +50,22 @@ function Dreamees(props) {
   }
 
   const regibutton = () => {
-    axios
-      .get(`/api/dreamee/mydreamee/${userid._id}`)
-      .then((response) => {
-        //등록된드림이소개가 있는데 드림이등록을 또 누른 경우
-        if (response.data) {
-          alert('이미 등록된 드림이 소개가 있습니다.')
-        } else {
-          navigate('/dreamee/post')
-        }
-      })
-      .catch((err) => alert(err))
+    if (!userid._id) {
+      alert('로그인을 해주세요')
+    } else {
+      axios
+        .get(`/api/dreamee/mydreamee/${userid._id}`)
+        .then((response) => {
+          //등록된드림이소개가 있는데 드림이등록을 또 누른 경우
+          if (response.data) {
+            console.log(response.data)
+            alert('이미 등록된 드림이 소개가 있습니다.')
+          } else {
+            navigate('/dreamee/post')
+          }
+        })
+        .catch((err) => alert(err))
+    }
   }
 
   return (

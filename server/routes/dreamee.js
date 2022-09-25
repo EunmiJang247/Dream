@@ -71,7 +71,7 @@ router.post('/finddreamee', (req, res, next) => {
     userFrom: { $in: req.body }
   })
     .then((result) => {
-      res.json(result)
+      res.json({ success: true, result })
     })
     .catch((err) => {
       res.send(err)
